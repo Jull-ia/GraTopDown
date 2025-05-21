@@ -1,0 +1,14 @@
+c:\Users\akach\.vscode\GraTopDown\GraTopDown\bin\Debug\net9.0\GraTopDown.exe
+c:\Users\akach\.vscode\GraTopDown\GraTopDown\bin\Debug\net9.0\GraTopDown.deps.json
+c:\Users\akach\.vscode\GraTopDown\GraTopDown\bin\Debug\net9.0\GraTopDown.runtimeconfig.json
+c:\Users\akach\.vscode\GraTopDown\GraTopDown\bin\Debug\net9.0\GraTopDown.dll
+c:\Users\akach\.vscode\GraTopDown\GraTopDown\bin\Debug\net9.0\GraTopDown.pdb
+c:\Users\akach\.vscode\GraTopDown\GraTopDown\obj\Debug\net9.0\GraTopDown.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\akach\.vscode\GraTopDown\GraTopDown\obj\Debug\net9.0\GraTopDown.AssemblyInfoInputs.cache
+c:\Users\akach\.vscode\GraTopDown\GraTopDown\obj\Debug\net9.0\GraTopDown.AssemblyInfo.cs
+c:\Users\akach\.vscode\GraTopDown\GraTopDown\obj\Debug\net9.0\GraTopDown.csproj.CoreCompileInputs.cache
+c:\Users\akach\.vscode\GraTopDown\GraTopDown\obj\Debug\net9.0\GraTopDown.dll
+c:\Users\akach\.vscode\GraTopDown\GraTopDown\obj\Debug\net9.0\refint\GraTopDown.dll
+c:\Users\akach\.vscode\GraTopDown\GraTopDown\obj\Debug\net9.0\GraTopDown.pdb
+c:\Users\akach\.vscode\GraTopDown\GraTopDown\obj\Debug\net9.0\GraTopDown.genruntimeconfig.cache
+c:\Users\akach\.vscode\GraTopDown\GraTopDown\obj\Debug\net9.0\ref\GraTopDown.dll
