@@ -22,7 +22,7 @@
 //     {
 //         previousPosition = position;
 //         position = CalculateTargetPosition(direction, level, characters);
-        
+
 //         level.LeaveCell(previousPosition);
 //         level.OccupyCell(position, this);
 //         cell = level.GetCell(position);
@@ -82,3 +82,25 @@
 //         cell = null;
 //     }
 // }
+
+using System.Drawing;
+
+abstract class Character
+{
+    public string name;
+    public Point position;
+    public Point previousPosition;
+    public int speed = 1;
+    public string avatar;
+    public bool isAlive = true;
+
+    public Cell? cell;
+
+    
+
+
+
+
+
+
+}
