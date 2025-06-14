@@ -41,26 +41,27 @@
 // } while (consoleKeyInfo.Key != ConsoleKey.Spacebar);
 
 
-using System.Drawing;
+// using System.Drawing;
 
-Console.CursorVisible = false;
+// Console.CursorVisible = false;
 
-Dictionary<ConsoleKey, string> keyActionMap = new Dictionary<ConsoleKey, string>();
-keyActionMap.Add(ConsoleKey.A, "moveLeft");
-keyActionMap.Add(ConsoleKey.D, "moveRight");
-keyActionMap.Add(ConsoleKey.W, "moveUp");
-keyActionMap.Add(ConsoleKey.S, "moveDown");
-keyActionMap.Add(ConsoleKey.Escape, "quitGame");
+// Dictionary<ConsoleKey, string> keyActionMap = new Dictionary<ConsoleKey, string>();
+// keyActionMap.Add(ConsoleKey.A, "moveLeft");
+// keyActionMap.Add(ConsoleKey.D, "moveRight");
+// keyActionMap.Add(ConsoleKey.W, "moveUp");
+// keyActionMap.Add(ConsoleKey.S, "moveDown");
+// keyActionMap.Add(ConsoleKey.Escape, "quitGame");
 
-Dictionary<string, Point> directionsMap = new Dictionary<string, Point>();
-directionsMap.Add("moveLeft", new Point(-1, 0));
-directionsMap.Add("moveRight", new Point(1, 0));
-directionsMap.Add("moveUp", new Point(0, -1));
-directionsMap.Add("moveDown", new Point(0, 1));
+// Dictionary<string, Point> directionsMap = new Dictionary<string, Point>();
+// directionsMap.Add("moveLeft", new Point(-1, 0));
+// directionsMap.Add("moveRight", new Point(1, 0));
+// directionsMap.Add("moveUp", new Point(0, -1));
+// directionsMap.Add("moveDown", new Point(0, 1));
 
-Point startingPoint = new Point(3, 10);
+// Point startingPoint = new Point(3, 10);
 
 
-Player hero = new Player("Prisoner", "@", startingPoint, keyActionMap);
-hero.speed = 1;
-characters.Add(hero);
+// Player hero = new Player("Prisoner", "@", startingPoint, keyActionMap);
+// hero.speed = 1;
+// characters.Add(hero);
+

@@ -83,18 +83,18 @@
 //     }
 // }
 
-using System.Drawing;
+// using System.Drawing;
 
-abstract class Character
-{
-    public string name;
-    public Point position;
-    public Point previousPosition;
-    public int speed = 1;
-    public string avatar;
-    public bool isAlive = true;
+// abstract class Character
+// {
+//     public string name;
+//     public Point position;
+//     public Point previousPosition;
+//     public int speed = 1;
+//     public string avatar;
+//     public bool isAlive = true;
 
-    public Cell? cell;
+//     public Cell? cell;
 
     
 
@@ -103,4 +103,4 @@ abstract class Character
 
 
 
-}
+// }
