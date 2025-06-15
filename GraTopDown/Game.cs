@@ -35,7 +35,7 @@ namespace GameProject
                     {
                         case ConsoleKey.W: newPosition.y -= 1; break;
                         case ConsoleKey.S: newPosition.y += 1; break;
-                        case ConsoleKey.A: newPosition.x -= 1; break;
+                        case ConsoleKey.A: newPosition.x -= 1; break; //zmien na dictionary
                         case ConsoleKey.D: newPosition.x += 1; break;
                         case ConsoleKey.Escape: return;
                     }

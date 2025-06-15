@@ -2,7 +2,7 @@ using GameProject;
 
 class Cell
 {
-    public char Visual { get; private set; }
+    public char Visual { get; set; }
     private Character occupant;
     public int X { get; }
     public int Y { get; }

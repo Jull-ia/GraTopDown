@@ -5,11 +5,11 @@ class Level
     {
 
             "##################",
-            "#....==....#.....#",
+            "#.P..==....#.....#",
             "#..........|.....#",
             "#..........#.....#",
             "############.....#",
-            "#....==....#.....#",
+            "#...P==....#.....#",
             "#..........|.....#",
             "#..........#.....#---------#########",
             "############.....#---------#..[!]..#",
@@ -23,10 +23,10 @@ class Level
             "##########################.......#..........######",
             "-------------------------####/#########_#####",
             "-------------------------#.....#----#......#",
-            "-------------------------#.....#----#......#",
-            "-------------------------#.....#----########",
-            "-------------------------#.....#",
-            "-------------------------#.....#",
+            "-------------------------##...##----#....*.#",
+            "-------------------------#....P#----########",
+            "-------------------------##...##",
+            "-------------------------#P....#",
             "-------------------------#######",
 
         };
@@ -72,12 +72,38 @@ class Level
         return y >= 0 && y < levelData.Length
             && x >= 0 && x < levelData[y].Length
             && levelData[y][x].Visual != '#'
-            && levelData[y][x].Visual != '_' 
-            && levelData[y][x].Visual != '|'; // blokuj drzwi
+            && levelData[y][x].Visual != '_'  // zablkowane drzwi poziom
+            && levelData[y][x].Visual != '|'; // zablkowane drzwi pion
+
+
     }
+
+
+      private void OpenDoors()
+{
+    for (int y = 0; y < levelData.Length; y++)
+    {
+        for (int x = 0; x < levelData[y].Length; x++)
+        {
+            if (levelData[y][x].Visual == '|' || levelData[y][x].Visual == '_')
+            {
+                levelData[y][x].Visual = '/'; 
+            }
+        }
+    }
+}
+
 
     public void OccupyCell(Point pos, Character character)
     {
+        char current = levelData[pos.y][pos.x].Visual;
+
+        // Jeśli gracz wchodzi na ! lub * = otworz drzwi
+        if (current == '!' || current == '*')
+        {
+            OpenDoors();
+        }
+
         levelData[pos.y][pos.x].Occupy(character);
     }
 
