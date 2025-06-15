@@ -3,7 +3,7 @@ using GameProject;
 class Cell
 {
     public char Visual { get; set; }
-    private Character occupant;
+    private Character? occupant;
     public int X { get; }
     public int Y { get; }
 
@@ -16,7 +16,12 @@ class Cell
 
     public void Display()
     {
+        if (occupant?.Symbol == '@')
+            Console.ForegroundColor = ConsoleColor.Magenta;
+        if(Visual == 'T')
+            Console.ForegroundColor = ConsoleColor.Green;
         Console.Write(occupant != null ? occupant.Symbol : Visual);
+        Console.ResetColor();
     }
 
     public void Occupy(Character character)

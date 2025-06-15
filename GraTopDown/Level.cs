@@ -29,7 +29,7 @@ class Level
             "-------------------------#P....#",
             "-------------------------#######",
 
-        };
+    };
 
 
     private Cell[][] levelData;
@@ -72,7 +72,7 @@ class Level
         return y >= 0 && y < levelData.Length
             && x >= 0 && x < levelData[y].Length
             && levelData[y][x].Visual != '#'
-            && levelData[y][x].Visual != 'T' // no nie można przez drzewa przechodzić..
+            && levelData[y][x].Visual != 'T' // no nie można przez drzewa
             && levelData[y][x].Visual != '_'  // zablkowane drzwi poziom
             && levelData[y][x].Visual != '|'; // zablkowane drzwi pion
 
