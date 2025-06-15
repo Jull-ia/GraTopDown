@@ -31,7 +31,10 @@ class Level
 
     };
 
-
+    private Dictionary<Point, Point> keysAndDoors = new Dictionary<Point, Point>()
+    { 
+        {new Point(31, 8), new Point(33, 14) }
+    };
     private Cell[][] levelData;
     private List<Point> teleportPoints = new();
 
@@ -80,19 +83,21 @@ class Level
     }
 
 
-      private void OpenDoors()
-{
-    for (int y = 0; y < levelData.Length; y++)
+    private void OpenDoors(Point pos)
     {
-        for (int x = 0; x < levelData[y].Length; x++)
-        {
-            if (levelData[y][x].Visual == '|' || levelData[y][x].Visual == '_')
-            {
-                levelData[y][x].Visual = '/'; 
-            }
-        }
+        //for (int y = 0; y < levelData.Length; y++)
+        //{
+        //for (int x = 0; x < levelData[y].Length; x++)
+        //{
+        //if (levelData[y][x].Visual == '|' || levelData[y][x].Visual == '_')
+        //{
+        if(keysAndDoors.TryGetValue(pos, out Point doorPosition))
+            levelData[doorPosition.y][doorPosition.x].Visual = '/'; 
+               // }
+            //}
+        //}
+        //1.) 8,31 -> 14, 33
     }
-}
 
 
     public void OccupyCell(Point pos, Character character)
@@ -102,7 +107,7 @@ class Level
         // Jeśli gracz wchodzi na ! lub * = otworz drzwi
         if (current == '!' || current == '*')
         {
-            OpenDoors();
+            OpenDoors(pos);
         }
 
         levelData[pos.y][pos.x].Occupy(character);
