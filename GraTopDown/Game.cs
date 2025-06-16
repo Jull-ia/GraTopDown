@@ -106,7 +106,14 @@ namespace GameProject
                 Point current = npcPositions[npc];
                 Point next = npc.GetNextMove();
 
-                if (level.IsWalkable(next.x, next.y) && !npcPositions.ContainsValue(next))
+                // Kolizja NPC z graczem
+                if (next.x == playerPosition.x && next.y == playerPosition.y)
+                {
+                    level.LeaveCell(playerPosition);
+                    playerPosition = level.GetStartNearFirstTeleport(5);
+                    level.OccupyCell(playerPosition, player);
+                }
+                else if (level.IsWalkable(next.x, next.y) && !npcPositions.ContainsValue(next))
                 {
                     level.LeaveCell(current);
                     npcPositions[npc] = next;
