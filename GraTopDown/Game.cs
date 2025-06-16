@@ -27,16 +27,20 @@ namespace GameProject
         {
             var path = new List<Point>
                 {
-                new Point(14, 3),
-                new Point(14, 4),
-                new Point(14, 5),
-                new Point(14, 6),
-                new Point(14, 7),
-                new Point(14, 8),
-                new Point(14, 9),
-                new Point(14, 10),
-                new Point(14, 11)
-            };
+                    new Point(14, 3),
+                    new Point(14, 4),
+                    new Point(14, 5),
+                    new Point(14, 6),
+                    new Point(14, 7),
+                    new Point(14, 8),
+                    new Point(14, 9),
+                    new Point(14, 10),
+                    new Point(14, 11),
+                    new Point(14, 12),
+                    new Point(14, 13),
+                    new Point(14, 14),
+                    new Point(14, 15)
+                };
 
             var npc = new NPC(path);
             npcs.Add(npc);
@@ -46,14 +50,15 @@ namespace GameProject
 
         public void Run()
         {
+            var lastNpcMoveTime = DateTime.Now;
+            int npcMoveIntervalMs = 320;
+
             while (true)
             {
                 Console.SetCursorPosition(0, 0);
-
-                MoveNPCs(); // <- porusz NPC
-
                 level.Display();
 
+                // Ruch gracza - natychmiastowy
                 if (Console.KeyAvailable)
                 {
                     ConsoleKey key = Console.ReadKey(true).Key;
@@ -82,7 +87,15 @@ namespace GameProject
                     }
                 }
 
-                Thread.Sleep(10);  //prędkość npc
+                // Ruch NPC co npcMoveIntervalMs ms
+                var now = DateTime.Now;
+                if ((now - lastNpcMoveTime).TotalMilliseconds >= npcMoveIntervalMs)
+                {
+                    MoveNPCs();
+                    lastNpcMoveTime = now;
+                }
+
+                Thread.Sleep(10); // małe opóźnienie, by nie katować CPU
             }
         }
 
@@ -103,4 +116,3 @@ namespace GameProject
         }
     }
 }
-
