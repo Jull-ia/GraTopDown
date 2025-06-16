@@ -76,8 +76,8 @@ class Level
             && x >= 0 && x < levelData[y].Length
             && levelData[y][x].Visual != '#'
             && levelData[y][x].Visual != 'T' // no nie można przez drzewa
-            && levelData[y][x].Visual != '_'  // zablkowane drzwi poziom
-            && levelData[y][x].Visual != '|'; // zablkowane drzwi pion
+            && levelData[y][x].Visual != '_'  // zablkowane drzwi poziome
+            && levelData[y][x].Visual != '|'; // zablkowane drzwi pionowe
 
 
     }

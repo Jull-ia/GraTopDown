@@ -23,7 +23,7 @@ namespace GameProject
             InitNPCs();
         }
 
-        private void InitNPCs()
+        private void InitNPCs() //ścieżka strażnika
         {
             var path = new List<Point>
                 {
@@ -58,8 +58,8 @@ namespace GameProject
                 Console.SetCursorPosition(0, 0);
                 level.Display();
 
-                // Ruch gracza - natychmiastowy
-                if (Console.KeyAvailable)
+
+                if (Console.KeyAvailable)     //poruszanie gracza
                 {
                     ConsoleKey key = Console.ReadKey(true).Key;
                     Point newPosition = playerPosition;
@@ -87,7 +87,7 @@ namespace GameProject
                     }
                 }
 
-                // Ruch NPC co npcMoveIntervalMs ms
+                // Ruch NPC 
                 var now = DateTime.Now;
                 if ((now - lastNpcMoveTime).TotalMilliseconds >= npcMoveIntervalMs)
                 {
@@ -95,7 +95,7 @@ namespace GameProject
                     lastNpcMoveTime = now;
                 }
 
-                Thread.Sleep(10); // małe opóźnienie, by nie katować CPU
+                Thread.Sleep(10); 
             }
         }
 

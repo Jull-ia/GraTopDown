@@ -17,7 +17,7 @@ namespace GameProject
         public Point GetNextMove()
         {
             if (path.Count == 0)
-                return new Point(0, 0); // lub rzuć wyjątek
+                return new Point(0, 0); 
 
             currentIndex += direction;
 

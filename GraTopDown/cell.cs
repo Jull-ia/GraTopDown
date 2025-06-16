@@ -14,7 +14,7 @@ class Cell
         Y = y;
     }
 
-    public void Display()
+    public void Display()  //display i kolorowanie elementów
     {
         if (occupant?.Symbol == '@')
             Console.ForegroundColor = ConsoleColor.Magenta;
