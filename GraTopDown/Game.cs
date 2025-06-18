@@ -22,31 +22,20 @@ namespace GameProject
 
             InitNPCs();
         }
-
-        private void InitNPCs() //ścieżka strażnika
+        
+        private void InitNPCs() // ścieżka strażnika
         {
-            var path = new List<Point>
-                {
-                    new Point(14, 3),
-                    new Point(14, 4),
-                    new Point(14, 5),
-                    new Point(14, 6),
-                    new Point(14, 7),
-                    new Point(14, 8),
-                    new Point(14, 9),
-                    new Point(14, 10),
-                    new Point(14, 11),
-                    new Point(14, 12),
-                    new Point(14, 13),
-                    new Point(14, 14),
-                    new Point(14, 15)
-                };
-
-            var npc = new NPC(path);
-            npcs.Add(npc);
-            npcPositions[npc] = path[0];
-            level.OccupyCell(path[0], npc);
+        var path = new List<Point>();
+        for (int y = 3; y <= 15; y++)
+        {
+            path.Add(new Point(14, y));
         }
+
+        var npc = new NPC(path);
+        npcs.Add(npc);
+        npcPositions[npc] = path[0];
+        level.OccupyCell(path[0], npc);
+    }
 
         public void Run()
         {
@@ -95,7 +84,7 @@ namespace GameProject
                     lastNpcMoveTime = now;
                 }
 
-                Thread.Sleep(10); 
+                Thread.Sleep(10);
             }
         }
 

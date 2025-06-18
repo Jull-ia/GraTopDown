@@ -102,6 +102,10 @@ class Level
 
     public void OccupyCell(Point pos, Character character)
     {
+        if (pos.y < 0 || pos.y >= levelData.Length) return;
+        if (pos.x < 0 || pos.x >= levelData[pos.y].Length) return;
+        // pozycja poza mapą - nic nie rób
+
         char current = levelData[pos.y][pos.x].Visual;
 
         // Jeśli gracz wchodzi na ! lub * = otworz drzwi
@@ -115,11 +119,17 @@ class Level
 
     public void LeaveCell(Point pos)
     {
+        if (pos.y < 0 || pos.y >= levelData.Length) return;
+        if (pos.x < 0 || pos.x >= levelData[pos.y].Length) return;
+
         levelData[pos.y][pos.x].Leave();
     }
 
     public char GetCellVisual(Point pos)
     {
+        if (pos.y < 0 || pos.y >= levelData.Length) return ' ';
+        if (pos.x < 0 || pos.x >= levelData[pos.y].Length) return ' ';
+
         return levelData[pos.y][pos.x].Visual;
     }
 
