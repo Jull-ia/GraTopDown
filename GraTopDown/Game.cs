@@ -12,6 +12,7 @@ namespace GameProject
 
         private List<NPC> npcs = new List<NPC>();
         private Dictionary<NPC, Point> npcPositions = new Dictionary<NPC, Point>();
+        
 
         public Game()
         {
@@ -22,20 +23,20 @@ namespace GameProject
 
             InitNPCs();
         }
-        
+
         private void InitNPCs() // ścieżka strażnika
         {
-        var path = new List<Point>();
-        for (int y = 3; y <= 15; y++)
-        {
-            path.Add(new Point(14, y));
-        }
+            var path = new List<Point>();
+            for (int y = 3; y <= 15; y++)
+            {
+                path.Add(new Point(14, y));
+            }
 
-        var npc = new NPC(path);
-        npcs.Add(npc);
-        npcPositions[npc] = path[0];
-        level.OccupyCell(path[0], npc);
-    }
+            var npc = new NPC(path);
+            npcs.Add(npc);
+            npcPositions[npc] = path[0];
+            level.OccupyCell(path[0], npc);
+        }
 
         public void Run()
         {
