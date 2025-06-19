@@ -17,7 +17,7 @@ namespace GameProject
         {
             if (currentLives > 0)
                 currentLives--;
-            Console.Beep(); // sygnał dźwiękowy
+            // Console.Beep(); // sygnał dźwiękowy
         }
 
         public void Reset(int lives = 3)
