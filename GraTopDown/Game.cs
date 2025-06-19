@@ -9,10 +9,15 @@ namespace GameProject
         private Level level;
         private Point playerPosition;
         private Character player;
-        // private Lives lives;
 
         private List<NPC> npcs = new List<NPC>();
         private Dictionary<NPC, Point> npcPositions = new Dictionary<NPC, Point>();
+
+        //wyświetlanie komunikatów np. o użyciu itemu
+        private string infoMessage = "";
+        private DateTime messageShownTime = DateTime.MinValue;
+        private const int messageDisplayDuration = 5000;
+
 
         public Game()
         {
@@ -49,6 +54,15 @@ namespace GameProject
                 player.Lives.Display();
                 level.Display();
 
+
+                if ((DateTime.Now - messageShownTime).TotalMilliseconds < messageDisplayDuration)
+                {
+                    Console.WriteLine(infoMessage.PadRight(Console.WindowWidth));
+                }
+                else
+                {
+                    Console.WriteLine(new string (' ', Console.WindowWidth));
+                }
             
                 // Gracz
                 if (Console.KeyAvailable)
@@ -62,7 +76,9 @@ namespace GameProject
                         case ConsoleKey.S: newPosition.y += 1; break;
                         case ConsoleKey.A: newPosition.x -= 1; break;
                         case ConsoleKey.D: newPosition.x += 1; break;
-                        case ConsoleKey.Q: player.UseItem();
+                        case ConsoleKey.Q:
+                            infoMessage = player.UseItem();
+                            messageShownTime = DateTime.Now;
                             break;
                         case ConsoleKey.Escape: return;
                     }

@@ -13,7 +13,7 @@ namespace GameProject
             Lives = new Lives();
         }
 
-        public void UseItem()
+        public string UseItem()
         {
 
             if (heldItem == "HealingPotion")
@@ -22,22 +22,21 @@ namespace GameProject
 
                 {
                     Lives.AddLife();
-                    Console.WriteLine("Użyto mikstury leczącej!");
-                    heldItem = null;
+                     heldItem = null;
+                    return "Użyto mikstury leczącej!";
+                   
                 }
                 else
                 {
-                    Console.WriteLine("Masz już maskymanlną liczbę żyć!");
+                    return "Masz już maskymanlną liczbę żyć!";
                 }
 
             }
             else
             {
-                Console.WriteLine("Brak przedmiotu do użycia");
+                return "Brak przedmiotu do użycia";
             }
 
-            Thread.Sleep(1000);
-            Console.Clear();
         }
 
     }
