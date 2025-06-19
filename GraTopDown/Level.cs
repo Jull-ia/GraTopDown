@@ -98,13 +98,13 @@ namespace GameProject
 
             char current = levelData[pos.y][pos.x].Visual;
 
-            // Otwórz drzwi
+            // otwiera drzwi
             if (current == '!' || current == '*')
             {
                 OpenDoors(pos);
             }
 
-            // Zbieranie mikstury
+            // zbieranie mikstury
             if (current == '8')
             {
                 character.CollectHealingPotion();
@@ -151,19 +151,28 @@ namespace GameProject
 
         public void PlaceHealingPotions(int count)
         {
+            Random rand = new Random();
             int placed = 0;
+
             while (placed < count)
             {
-                int y = random.Next(levelData.Length);
-                int x = random.Next(levelData[y].Length);
+                int y = rand.Next(levelData.Length);
+                int x = rand.Next(levelData[y].Length);
 
-                char visual = levelData[y][x].Visual;
-                if (visual == '.' || visual == ' ')
+                // zeby sie nie spawnowało w celach wiezniow
+                bool inForbiddenArea = x >= 1 && x <= 11 && y >= 1 && y <= 8;
+                if (inForbiddenArea)
+                    continue;
+
+                Cell cell = levelData[y][x];
+                if (cell.Visual == '.' && !cell.IsOccupied())
                 {
-                    levelData[y][x].Visual = '8';
+                    cell.Visual = '8';
                     placed++;
                 }
             }
         }
+
+        
     }
 }

@@ -25,7 +25,7 @@ namespace GameProject
             level.OccupyCell(playerPosition, player);
 
             InitNPCs();
-            level.PlaceHealingPotions(3); // ← dodano mikstury
+            level.PlaceHealingPotions(2); // mikstury
         }
 
         private void InitNPCs()

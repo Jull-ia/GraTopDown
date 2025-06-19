@@ -19,25 +19,26 @@ class Cell
         if (occupant?.Symbol == '@')
             Console.ForegroundColor = ConsoleColor.Magenta;
 
-        if(occupant?.Symbol == '$')
+        if (occupant?.Symbol == '$')
             Console.ForegroundColor = ConsoleColor.Blue;
             
         if (Visual == 'T')
             Console.ForegroundColor = ConsoleColor.Green;
 
-         if (Visual == 'M')
+        if (Visual == 'M')
             Console.ForegroundColor = ConsoleColor.Yellow;
 
         if (Visual == 'o')
             Console.ForegroundColor = ConsoleColor.DarkGray;
 
         if (Visual == '/')
-        Console.ForegroundColor = ConsoleColor.DarkYellow;
-        if (Visual == '-')
-        Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
 
-         if (Visual =='=')
-        Console.ForegroundColor = ConsoleColor.DarkMagenta;
+        if (Visual == '-')
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+
+        if (Visual == '=')
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
 
         Console.Write(occupant != null ? occupant.Symbol : Visual);
         Console.ResetColor();
@@ -51,5 +52,11 @@ class Cell
     public void Leave()
     {
         occupant = null;
+    }
+
+    // 🔧 Dodana metoda, której brakowało
+    public bool IsOccupied()
+    {
+        return occupant != null;
     }
 }
