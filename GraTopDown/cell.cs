@@ -14,7 +14,7 @@ class Cell
         Y = y;
     }
 
-    public void Display()  //display i kolorowanie elementów
+    public void Display()  // kolorowanie elementów
     {
         if (occupant?.Symbol == '@')
             Console.ForegroundColor = ConsoleColor.Magenta;
@@ -47,6 +47,7 @@ class Cell
         Console.ResetColor();
     }
 
+
     public void Occupy(Character character)
     {
         occupant = character;
@@ -57,7 +58,7 @@ class Cell
         occupant = null;
     }
 
-    // 🔧 Dodana metoda, której brakowało
+    
     public bool IsOccupied()
     {
         return occupant != null;

@@ -18,7 +18,7 @@ namespace GameProject
         {
             if (currentLives > 0)
                 currentLives--;
-            // Console.Beep(); // sygnał dźwiękowy
+            
         }
 
         public void AddLife()

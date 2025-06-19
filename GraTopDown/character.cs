@@ -8,7 +8,7 @@ namespace GameProject
         public char Symbol { get; }
         public Lives Lives { get; }
 
-        public int PotionCount { get; private set; } = 1; // gracz startuje z 1 miksturą
+        public int PotionCount { get; private set; } = 1; 
 
         public Character(char symbol)
         {
