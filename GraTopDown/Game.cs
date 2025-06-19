@@ -9,22 +9,23 @@ namespace GameProject
         private Level level;
         private Point playerPosition;
         private Character player;
+        private Lives lives;
 
         private List<NPC> npcs = new List<NPC>();
         private Dictionary<NPC, Point> npcPositions = new Dictionary<NPC, Point>();
-        
 
         public Game()
         {
             level = new Level();
             player = new Character('@');
+            lives = new Lives(3);
             playerPosition = level.GetStartNearFirstTeleport(5);
             level.OccupyCell(playerPosition, player);
 
             InitNPCs();
         }
 
-        private void InitNPCs() // ścieżka strażnika
+        private void InitNPCs()
         {
             var path = new List<Point>();
             for (int y = 3; y <= 15; y++)
@@ -43,13 +44,16 @@ namespace GameProject
             var lastNpcMoveTime = DateTime.Now;
             int npcMoveIntervalMs = 320;
 
-            while (true)
+            while (lives.IsAlive)
             {
                 Console.SetCursorPosition(0, 0);
                 level.Display();
 
+                // Wyświetl życia
+                Console.WriteLine($"Życia: {lives.Current}");
 
-                if (Console.KeyAvailable)     //poruszanie gracza
+                // --- Gracz ---
+                if (Console.KeyAvailable)
                 {
                     ConsoleKey key = Console.ReadKey(true).Key;
                     Point newPosition = playerPosition;
@@ -65,19 +69,27 @@ namespace GameProject
 
                     if (level.IsWalkable(newPosition.x, newPosition.y))
                     {
-                        level.LeaveCell(playerPosition);
-                        playerPosition = newPosition;
-
-                        if (level.GetCellVisual(playerPosition) == 'o')
+                        // Sprawdź, czy wchodzisz na NPC
+                        if (IsNpcAtPosition(newPosition))
                         {
-                            playerPosition = level.GetOtherTeleport(playerPosition);
+                            HandlePlayerHit();
                         }
+                        else
+                        {
+                            level.LeaveCell(playerPosition);
+                            playerPosition = newPosition;
 
-                        level.OccupyCell(playerPosition, player);
+                            if (level.GetCellVisual(playerPosition) == 'o')
+                            {
+                                playerPosition = level.GetOtherTeleport(playerPosition);
+                            }
+
+                            level.OccupyCell(playerPosition, player);
+                        }
                     }
                 }
 
-                // Ruch NPC 
+                // --- NPC ruch ---
                 var now = DateTime.Now;
                 if ((now - lastNpcMoveTime).TotalMilliseconds >= npcMoveIntervalMs)
                 {
@@ -87,6 +99,11 @@ namespace GameProject
 
                 Thread.Sleep(10);
             }
+
+            // --- Koniec gry ---
+            Console.Clear();
+            Console.WriteLine("KONIEC GRY. Straciłeś wszystkie życia.");
+            Console.ReadKey();
         }
 
         private void MoveNPCs()
@@ -96,20 +113,37 @@ namespace GameProject
                 Point current = npcPositions[npc];
                 Point next = npc.GetNextMove();
 
-                // Kolizja NPC z graczem
-                if (next.x == playerPosition.x && next.y == playerPosition.y)
+                // Jeśli NPC wejdzie na gracza
+                if (next.Equals(playerPosition))
                 {
-                    level.LeaveCell(playerPosition);
-                    playerPosition = level.GetStartNearFirstTeleport(5);
-                    level.OccupyCell(playerPosition, player);
+                    HandlePlayerHit();
                 }
-                else if (level.IsWalkable(next.x, next.y) && !npcPositions.ContainsValue(next))
+
+                if (level.IsWalkable(next.x, next.y) && !npcPositions.ContainsValue(next))
                 {
                     level.LeaveCell(current);
                     npcPositions[npc] = next;
                     level.OccupyCell(next, npc);
                 }
             }
+        }
+
+        private bool IsNpcAtPosition(Point pos)
+        {
+            foreach (var npcPos in npcPositions.Values)
+            {
+                if (npcPos.Equals(pos))
+                    return true;
+            }
+            return false;
+        }
+
+        private void HandlePlayerHit()
+        {
+            lives.LoseLife();
+            level.LeaveCell(playerPosition);
+            playerPosition = level.GetStartNearFirstTeleport(5);
+            level.OccupyCell(playerPosition, player);
         }
     }
 }
