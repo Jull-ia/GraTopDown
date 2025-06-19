@@ -24,7 +24,6 @@ namespace GameProject
                     Lives.AddLife();
                      heldItem = null;
                     return "Użyto mikstury leczącej!";
-                   
                 }
                 else
                 {

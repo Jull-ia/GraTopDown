@@ -18,14 +18,18 @@ class Cell
     {
         if (occupant?.Symbol == '@')
             Console.ForegroundColor = ConsoleColor.Magenta;
+
+        if(occupant?.Symbol == '$')
+            Console.ForegroundColor = ConsoleColor.Blue;
             
         if (Visual == 'T')
             Console.ForegroundColor = ConsoleColor.Green;
 
-        if (Visual == 'o')
+         if (Visual == 'M')
             Console.ForegroundColor = ConsoleColor.Yellow;
+
         if (Visual == 'o')
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.DarkGray;
 
         if (Visual == '/')
         Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -33,7 +37,7 @@ class Cell
         Console.ForegroundColor = ConsoleColor.DarkGreen;
 
          if (Visual =='=')
-        Console.ForegroundColor = ConsoleColor.Red;
+        Console.ForegroundColor = ConsoleColor.DarkMagenta;
 
         Console.Write(occupant != null ? occupant.Symbol : Visual);
         Console.ResetColor();
