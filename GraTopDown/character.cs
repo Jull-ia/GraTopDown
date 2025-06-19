@@ -1,42 +1,45 @@
+using System.Collections.Generic;
+
 namespace GameProject
 {
     class Character
     {
-        private string ? heldItem;
+        public List<string> HeldItems { get; }
         public char Symbol { get; }
         public Lives Lives { get; }
 
         public Character(char symbol)
         {
             Symbol = symbol;
-            heldItem = "HealingPotion";
+            HeldItems = new List<string>();
+            HeldItems.Add("HealingPotion");
             Lives = new Lives();
         }
 
         public string UseItem()
         {
-
-            if (heldItem == "HealingPotion")
+            if (HeldItems.Contains("HealingPotion"))
             {
                 if (Lives.Current < Lives.Max)
-
                 {
                     Lives.AddLife();
-                     heldItem = null;
+                    HeldItems.Remove("HealingPotion");
                     return "Użyto mikstury leczącej!";
                 }
                 else
                 {
-                    return "Masz już maskymanlną liczbę żyć!";
+                    return "Masz już maksymalną liczbę żyć!";
                 }
-
             }
             else
             {
-                return "Brak przedmiotu do użycia";
+                return "Brak mikstury do użycia.";
             }
-
         }
 
+        public void CollectHealingPotion()
+        {
+            HeldItems.Add("HealingPotion");
+        }
     }
 }

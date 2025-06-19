@@ -10,14 +10,12 @@ namespace GameProject
         private Point playerPosition;
         private Character player;
 
-        private List<NPC> npcs = new List<NPC>();
-        private Dictionary<NPC, Point> npcPositions = new Dictionary<NPC, Point>();
+        private List<NPC> npcs = new();
+        private Dictionary<NPC, Point> npcPositions = new();
 
-        //wyświetlanie komunikatów np. o użyciu itemu
         private string infoMessage = "";
         private DateTime messageShownTime = DateTime.MinValue;
         private const int messageDisplayDuration = 5000;
-
 
         public Game()
         {
@@ -27,6 +25,7 @@ namespace GameProject
             level.OccupyCell(playerPosition, player);
 
             InitNPCs();
+            level.PlaceHealingPotions(3); // ← dodano mikstury
         }
 
         private void InitNPCs()
@@ -54,17 +53,15 @@ namespace GameProject
                 player.Lives.Display();
                 level.Display();
 
-
                 if ((DateTime.Now - messageShownTime).TotalMilliseconds < messageDisplayDuration)
                 {
                     Console.WriteLine(infoMessage.PadRight(Console.WindowWidth));
                 }
                 else
                 {
-                    Console.WriteLine(new string (' ', Console.WindowWidth));
+                    Console.WriteLine(new string(' ', Console.WindowWidth));
                 }
-            
-                // Gracz
+
                 if (Console.KeyAvailable)
                 {
                     ConsoleKey key = Console.ReadKey(true).Key;
@@ -85,7 +82,6 @@ namespace GameProject
 
                     if (level.IsWalkable(newPosition.x, newPosition.y))
                     {
-                        // Kolizja z NPC
                         if (IsNpcAtPosition(newPosition))
                         {
                             HandlePlayerHit();
@@ -105,7 +101,6 @@ namespace GameProject
                     }
                 }
 
-                // Ruch NPC
                 var now = DateTime.Now;
                 if ((now - lastNpcMoveTime).TotalMilliseconds >= npcMoveIntervalMs)
                 {
@@ -116,7 +111,6 @@ namespace GameProject
                 Thread.Sleep(10);
             }
 
-            // Przegrana
             Console.Clear();
             Console.WriteLine("KONIEC GRY. Straciłeś wszystkie życia.");
             Console.ReadKey();
@@ -129,7 +123,6 @@ namespace GameProject
                 Point current = npcPositions[npc];
                 Point next = npc.GetNextMove();
 
-                // Jeśli NPC wejdzie na gracza
                 if (next.Equals(playerPosition))
                 {
                     HandlePlayerHit();
