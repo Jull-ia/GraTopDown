@@ -51,6 +51,7 @@ namespace GameProject
             {
                 Console.SetCursorPosition(0, 0);
                 player.Lives.Display();
+                player.DisplayPotionCount(); // Pokaż liczbę mikstur
                 level.Display();
 
                 if ((DateTime.Now - messageShownTime).TotalMilliseconds < messageDisplayDuration)
@@ -91,9 +92,18 @@ namespace GameProject
                             level.LeaveCell(playerPosition);
                             playerPosition = newPosition;
 
+                            // Sprawdź teleport
                             if (level.GetCellVisual(playerPosition) == 'o')
                             {
                                 playerPosition = level.GetOtherTeleport(playerPosition);
+                            }
+
+                            // Sprawdź zebranie mikstury
+                            if (level.CollectHealingPotion(playerPosition))
+                            {
+                                player.AddPotion();
+                                infoMessage = "Zebrano miksturę!";
+                                messageShownTime = DateTime.Now;
                             }
 
                             level.OccupyCell(playerPosition, player);

@@ -173,6 +173,15 @@ namespace GameProject
             }
         }
 
-        
+        public bool CollectHealingPotion(Point pos)
+{
+    var cell = levelData[pos.y][pos.x];
+    if (cell.Visual == '8')
+    {
+        cell.Visual = '.';
+        return true;
+    }
+    return false;
+}
     }
 }
