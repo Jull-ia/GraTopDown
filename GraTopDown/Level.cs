@@ -99,7 +99,7 @@ namespace GameProject
             char current = levelData[pos.y][pos.x].Visual;
 
             // otwiera drzwi
-            if (current == '!' || current == '*')
+            if (current == '?' || current == '*')
             {
                 OpenDoors(pos);
             }

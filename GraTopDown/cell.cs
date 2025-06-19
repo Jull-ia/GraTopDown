@@ -25,6 +25,9 @@ class Cell
         if (Visual == 'T')
             Console.ForegroundColor = ConsoleColor.Green;
 
+        if (Visual == '8')
+            Console.ForegroundColor = ConsoleColor.Cyan;
+
         if (Visual == 'M')
             Console.ForegroundColor = ConsoleColor.Yellow;
 
