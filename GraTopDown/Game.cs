@@ -9,7 +9,7 @@ namespace GameProject
         private Level level;
         private Point playerPosition;
         private Character player;
-        private Lives lives;
+        // private Lives lives;
 
         private List<NPC> npcs = new List<NPC>();
         private Dictionary<NPC, Point> npcPositions = new Dictionary<NPC, Point>();
@@ -18,7 +18,6 @@ namespace GameProject
         {
             level = new Level();
             player = new Character('@');
-            lives = new Lives(3);
             playerPosition = level.GetStartNearFirstTeleport(5);
             level.OccupyCell(playerPosition, player);
 
@@ -44,15 +43,14 @@ namespace GameProject
             var lastNpcMoveTime = DateTime.Now;
             int npcMoveIntervalMs = 320;
 
-            while (lives.IsAlive)
+            while (player.Lives.IsAlive)
             {
                 Console.SetCursorPosition(0, 0);
+                player.Lives.Display();
                 level.Display();
 
-                // Wyświetl życia
-                Console.WriteLine($"Życia: {lives.Current}");
-
-                // --- Gracz ---
+            
+                // Gracz
                 if (Console.KeyAvailable)
                 {
                     ConsoleKey key = Console.ReadKey(true).Key;
@@ -64,12 +62,14 @@ namespace GameProject
                         case ConsoleKey.S: newPosition.y += 1; break;
                         case ConsoleKey.A: newPosition.x -= 1; break;
                         case ConsoleKey.D: newPosition.x += 1; break;
+                        case ConsoleKey.Q: player.UseItem();
+                            break;
                         case ConsoleKey.Escape: return;
                     }
 
                     if (level.IsWalkable(newPosition.x, newPosition.y))
                     {
-                        // Sprawdź, czy wchodzisz na NPC
+                        // Kolizja z NPC
                         if (IsNpcAtPosition(newPosition))
                         {
                             HandlePlayerHit();
@@ -89,7 +89,7 @@ namespace GameProject
                     }
                 }
 
-                // --- NPC ruch ---
+                // Ruch NPC
                 var now = DateTime.Now;
                 if ((now - lastNpcMoveTime).TotalMilliseconds >= npcMoveIntervalMs)
                 {
@@ -100,7 +100,7 @@ namespace GameProject
                 Thread.Sleep(10);
             }
 
-            // --- Koniec gry ---
+            // Przegrana
             Console.Clear();
             Console.WriteLine("KONIEC GRY. Straciłeś wszystkie życia.");
             Console.ReadKey();
@@ -140,7 +140,7 @@ namespace GameProject
 
         private void HandlePlayerHit()
         {
-            lives.LoseLife();
+            player.Lives.LoseLife();
             level.LeaveCell(playerPosition);
             playerPosition = level.GetStartNearFirstTeleport(5);
             level.OccupyCell(playerPosition, player);
