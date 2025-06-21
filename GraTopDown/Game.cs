@@ -99,14 +99,14 @@ namespace GameProject
                         case ConsoleKey.A: newPosition.x -= 1; break;
                         case ConsoleKey.D: newPosition.x += 1; break;
                         case ConsoleKey.Escape: return;
-                        case ConsoleKey.H:
+                        case ConsoleKey.H: // używanie mikstury leczenia
                             infoMessage = player.UseItem();
                             messageShownTime = DateTime.Now;
                             break;
-                        case ConsoleKey.Q:
+                        case ConsoleKey.Q: //używanie kluczy tak jak w nazwie xD
                             if (player.UseKey())
                             {
-                                if (level.UseKey())
+                                if (level.UseKey(playerPosition))
                                 {
                                     infoMessage = "Użyto klucza, drzwi zostały otwarte.";
                                 }
@@ -153,7 +153,7 @@ namespace GameProject
 
                             if (wasPotion)
                             {
-                                infoMessage = "Zebrałeś miksturę!";
+                                infoMessage = "Zebrałeś miksturę! Naciśnij H aby jej użyć.";
                                 messageShownTime = DateTime.Now;
                             }
 
@@ -161,11 +161,9 @@ namespace GameProject
                             {
                                 player.AddItemToInventory('?');
                                 level.OccupyCell(playerPosition, player);
-                                infoMessage = "Zebrałeś klucz!";
+                                infoMessage = "Zebrałeś klucz! Naciśnij Q aby go użyć.";
                                 messageShownTime = DateTime.Now;
-                            }
-                            else
-                            {
+
                                 level.OccupyCell(playerPosition, player);
                             }
                         }

@@ -86,15 +86,17 @@ namespace GameProject
                 && levelData[y][x].Visual != '|';
         }
 
-        public bool UseKey()
+                public bool UseKey(Point playerPosition)
         {
-            foreach (var keyPos in keysAndDoors.Keys)
+            foreach (var kvp in keysAndDoors)
             {
-                char symbol = levelData[keyPos.y][keyPos.x].Visual;
-                if (symbol == '?')
+                Point keyPos = kvp.Key;
+                Point doorPos = kvp.Value;
+
+                // sprawdzanie czy gracz stoi obok drzwi i otwiernie drzwi powiązanych z kluczem
+                if (IsAdjacent(playerPosition, doorPos))
                 {
-                    OpenDoors(keyPos);
-                   levelData[keyPos.y][keyPos.x].Visual ='.';
+                    OpenDoors(keyPos); 
                     return true;
                 }
             }
@@ -102,13 +104,15 @@ namespace GameProject
             return false;
         }
 
-        // private void OpenDoors(Point pos)
-        // {
-        //     if (keysAndDoors.TryGetValue(pos, out Point doorPosition))
-        //         levelData[doorPosition.y][doorPosition.x].Visual = '/';
-        // }
+        
+        private bool IsAdjacent(Point a, Point b)
+        {
+            int dx = Math.Abs(a.x - b.x);
+            int dy = Math.Abs(a.y - b.y);
+            return (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
+        }
 
-                private void OpenDoors(Point pos)
+        private void OpenDoors(Point pos)
         {
             if (keysAndDoors.TryGetValue(pos, out Point doorPosition))
             {
@@ -127,10 +131,15 @@ namespace GameProject
 
             char current = levelData[pos.y][pos.x].Visual;
 
-            // otwiera drzwi
-            if (current == '?' || current == '*')
-            {
-                OpenDoors(pos);
+             //otwieranie drzwi
+             if (current == '?')
+             {
+                  character.AddItemToInventory('?'); 
+                  levelData[pos.y][pos.x].Visual = '.';
+             }
+             else if (current == '*') // drugie drzwi
+             {
+                    OpenDoors(pos); 
             }
 
             // zbieranie mikstury
@@ -188,7 +197,7 @@ namespace GameProject
                 int y = rand.Next(levelData.Length);
                 int x = rand.Next(levelData[y].Length);
 
-                // zeby sie nie spawnowało w celach wiezniow
+                // zeby potki sie nie spawnowały w celach wiezniow
                 bool inForbiddenArea = x >= 1 && x <= 11 && y >= 1 && y <= 8;
                 if (inForbiddenArea)
                     continue;
@@ -227,7 +236,7 @@ namespace GameProject
             foreach (var pos in body)
             {
                 if (IsInsideBounds(pos))
-                    levelData[pos.y][pos.x].Visual = '.'; // lub oryginalny znak, jeśli pamiętasz go gdzieś
+                    levelData[pos.y][pos.x].Visual = '.'; 
             }
         }
 

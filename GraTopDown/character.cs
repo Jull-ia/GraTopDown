@@ -21,7 +21,7 @@ namespace GameProject
             Lives = new Lives();
         }
 
-        public void AddItemToInventory(char itemSymbol)
+        public void AddItemToInventory(char itemSymbol) //dodawanie itemków do ekwipunku
         {
             Inventory.Add(itemSymbol);
         }
@@ -56,9 +56,6 @@ namespace GameProject
             return false;
 
         }
-
-
-
 
         public void CollectHealingPotion()
         {
