@@ -13,6 +13,9 @@ namespace GameProject
         private List<NPC> npcs = new();
         private Dictionary<NPC, Point> npcPositions = new();
 
+        private Snake snake;
+        private List<Point> snakePath;
+
         private string infoMessage = "";
         private DateTime messageShownTime = DateTime.MinValue;
         private const int messageDisplayDuration = 5000;
@@ -25,7 +28,8 @@ namespace GameProject
             level.OccupyCell(playerPosition, player);
 
             InitNPCs();
-            level.PlaceHealingPotions(2); // mikstury
+            InitSnake();
+            level.PlaceHealingPotions(2);
         }
 
         private void InitNPCs()
@@ -42,26 +46,49 @@ namespace GameProject
             level.OccupyCell(path[0], npc);
         }
 
+        private void InitSnake()
+        {
+            snakePath = new List<Point>();
+
+            // Prawo
+            for (int x = 36; x <= 41; x++)
+                snakePath.Add(new Point(x, 13));
+
+            // Dół
+            for (int y = 14; y <= 15; y++)
+                snakePath.Add(new Point(41, y));
+
+            // Lewo
+            for (int x = 40; x >= 36; x--)
+                snakePath.Add(new Point(x, 15));
+
+            // Góra
+            for (int y = 14; y >= 13; y--)
+                snakePath.Add(new Point(36, y));
+
+            snake = new Snake(snakePath);
+        }
+
         public void Run()
         {
             var lastNpcMoveTime = DateTime.Now;
             int npcMoveIntervalMs = 320;
 
+            var lastSnakeMoveTime = DateTime.Now;
+            int snakeMoveIntervalMs = 300;
+
             while (player.Lives.IsAlive)
             {
                 Console.SetCursorPosition(0, 0);
-                player.Lives.Display(); //Licznik żyć
-                player.DisplayPotionCount(); //Licznik potek
-                level.Display();
+                player.Lives.Display(); // ← 0. linia: życia
+                Console.SetCursorPosition(0, 1);
+                Console.WriteLine($"Mikstury: {player.GetPotionCount()}".PadRight(Console.WindowWidth)); // ← 1. linia
+                level.Display(); // ← od 2. linii w dół
 
                 if ((DateTime.Now - messageShownTime).TotalMilliseconds < messageDisplayDuration)
-                {
                     Console.WriteLine(infoMessage.PadRight(Console.WindowWidth));
-                }
                 else
-                {
                     Console.WriteLine(new string(' ', Console.WindowWidth));
-                }
 
                 if (Console.KeyAvailable)
                 {
@@ -83,7 +110,7 @@ namespace GameProject
 
                     if (level.IsWalkable(newPosition.x, newPosition.y))
                     {
-                        if (IsNpcAtPosition(newPosition))
+                        if (IsNpcAtPosition(newPosition) || IsSnakeAtPosition(newPosition))
                         {
                             HandlePlayerHit();
                         }
@@ -92,30 +119,43 @@ namespace GameProject
                             level.LeaveCell(playerPosition);
                             playerPosition = newPosition;
 
-                           
                             if (level.GetCellVisual(playerPosition) == 'o')
-                            {
                                 playerPosition = level.GetOtherTeleport(playerPosition);
-                            }
 
-                         //Zbieranie potek
-                            if (level.CollectHealingPotion(playerPosition))
+                            // Sprawdzenie, czy na nowej pozycji jest mikstura
+                            if (level.GetCellVisual(playerPosition) == '8')
                             {
-                                player.AddPotion();
-                                infoMessage = "Zebrano miksturę!";
+                                player.CollectHealingPotion();
+                                level.OccupyCell(playerPosition, player); // zajmij pole (mikstura zniknie)
+                                infoMessage = "Zebrałeś miksturę!";
                                 messageShownTime = DateTime.Now;
                             }
-
-                            level.OccupyCell(playerPosition, player);
+                            else
+                            {
+                                level.OccupyCell(playerPosition, player);
+                            }
                         }
                     }
                 }
 
-                var now = DateTime.Now;
+                DateTime now = DateTime.Now;
+
                 if ((now - lastNpcMoveTime).TotalMilliseconds >= npcMoveIntervalMs)
                 {
                     MoveNPCs();
                     lastNpcMoveTime = now;
+                }
+
+                if ((now - lastSnakeMoveTime).TotalMilliseconds >= snakeMoveIntervalMs)
+                {
+                    level.ClearSnake(snake.GetBody());
+                    snake.Move();
+                    level.DrawSnake(snake.GetBody());
+
+                    if (IsSnakeAtPosition(playerPosition))
+                        HandlePlayerHit();
+
+                    lastSnakeMoveTime = now;
                 }
 
                 Thread.Sleep(10);
@@ -134,9 +174,7 @@ namespace GameProject
                 Point next = npc.GetNextMove();
 
                 if (next.Equals(playerPosition))
-                {
                     HandlePlayerHit();
-                }
 
                 if (level.IsWalkable(next.x, next.y) && !npcPositions.ContainsValue(next))
                 {
@@ -150,10 +188,14 @@ namespace GameProject
         private bool IsNpcAtPosition(Point pos)
         {
             foreach (var npcPos in npcPositions.Values)
-            {
-                if (npcPos.Equals(pos))
-                    return true;
-            }
+                if (npcPos.Equals(pos)) return true;
+            return false;
+        }
+
+        private bool IsSnakeAtPosition(Point pos)
+        {
+            foreach (var segment in snake.GetBody())
+                if (segment.Equals(pos)) return true;
             return false;
         }
 

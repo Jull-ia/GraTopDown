@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 
 namespace GameProject
 {
@@ -8,7 +9,9 @@ namespace GameProject
         public char Symbol { get; }
         public Lives Lives { get; }
 
-        public int PotionCount { get; private set; } = 1; 
+        private int potionCount = 1; // zaczynamy z 1 miksturą
+
+        public int PotionCount => potionCount;
 
         public Character(char symbol)
         {
@@ -18,37 +21,24 @@ namespace GameProject
             Lives = new Lives();
         }
 
-        public string UseItem()
-        {
-            if (PotionCount > 0)
-            {
-                if (Lives.Current < Lives.Max)
-                {
-                    Lives.AddLife();
-                    PotionCount--;
-                    return "Użyto mikstury leczącej!";
-                }
-                else
-                {
-                    return "Masz już maksymalną liczbę żyć!";
-                }
-            }
-            else
-            {
-                return "Brak mikstur do użycia.";
-            }
-        }
-
-        public void AddPotion()
-        {
-            PotionCount++;
-        }
-
         public void CollectHealingPotion()
         {
-            HeldItems.Add("HealingPotion");
+            potionCount++;
         }
-    public void DisplayPotionCount()
+
+        public string UseItem()
+        {
+            if (potionCount > 0 && Lives.Heal()) // Heal() zwraca true jeśli udało się uleczyć
+            {
+                potionCount--;
+                return "Użyto mikstury. Odzyskano życie.";
+            }
+            return "Brak mikstur lub pełne zdrowie.";
+        }
+
+        public int GetPotionCount() => potionCount;
+
+        public void DisplayPotionCount()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"Mikstury: {PotionCount}".PadRight(Console.WindowWidth));

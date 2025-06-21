@@ -18,7 +18,7 @@ namespace GameProject
         {
             if (currentLives > 0)
                 currentLives--;
-            
+
         }
 
         public void AddLife()
@@ -35,6 +35,16 @@ namespace GameProject
         public void Display()
         {
             Console.WriteLine($"Życia: {currentLives}"); // wyswietla liczbe zyc
+        }
+        
+        public bool Heal()
+        {
+            if (currentLives < maxLives)
+            {
+                currentLives++;
+                return true;
+            }
+            return false;
         }
     }
 }

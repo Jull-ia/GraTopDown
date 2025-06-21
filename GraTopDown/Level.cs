@@ -174,14 +174,38 @@ namespace GameProject
         }
 
         public bool CollectHealingPotion(Point pos)
-{
-    var cell = levelData[pos.y][pos.x];
-    if (cell.Visual == '8')
-    {
-        cell.Visual = '.';
-        return true;
-    }
-    return false;
-}
+        {
+            var cell = levelData[pos.y][pos.x];
+            if (cell.Visual == '8')
+            {
+                cell.Visual = '.';
+                return true;
+            }
+            return false;
+        }
+
+        public void DrawSnake(IEnumerable<Point> body)
+        {
+            foreach (var pos in body)
+            {
+                if (IsInsideBounds(pos))
+                    levelData[pos.y][pos.x].Visual = 's';
+            }
+        }
+
+        public void ClearSnake(IEnumerable<Point> body)
+        {
+            foreach (var pos in body)
+            {
+                if (IsInsideBounds(pos))
+                    levelData[pos.y][pos.x].Visual = '.'; // lub oryginalny znak, jeśli pamiętasz go gdzieś
+            }
+        }
+
+        private bool IsInsideBounds(Point pos)
+        {
+            return pos.y >= 0 && pos.y < levelData.Length &&
+                pos.x >= 0 && pos.x < levelData[pos.y].Length;
+        }
     }
 }
