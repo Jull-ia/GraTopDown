@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 namespace GameProject
 {
@@ -85,10 +86,38 @@ namespace GameProject
                 && levelData[y][x].Visual != '|';
         }
 
-        private void OpenDoors(Point pos)
+        public bool UseKey()
+        {
+            foreach (var keyPos in keysAndDoors.Keys)
+            {
+                char symbol = levelData[keyPos.y][keyPos.x].Visual;
+                if (symbol == '?')
+                {
+                    OpenDoors(keyPos);
+                   levelData[keyPos.y][keyPos.x].Visual ='.';
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // private void OpenDoors(Point pos)
+        // {
+        //     if (keysAndDoors.TryGetValue(pos, out Point doorPosition))
+        //         levelData[doorPosition.y][doorPosition.x].Visual = '/';
+        // }
+
+                private void OpenDoors(Point pos)
         {
             if (keysAndDoors.TryGetValue(pos, out Point doorPosition))
-                levelData[doorPosition.y][doorPosition.x].Visual = '/';
+            {
+                char doorChar = levelData[doorPosition.y][doorPosition.x].Visual;
+                if (doorChar == '|' || doorChar == '_')
+                {
+                    levelData[doorPosition.y][doorPosition.x].Visual = '/';
+                }
+            }
         }
 
         public void OccupyCell(Point pos, Character character)

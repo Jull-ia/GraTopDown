@@ -80,10 +80,11 @@ namespace GameProject
             while (player.Lives.IsAlive)
             {
                 Console.SetCursorPosition(0, 0);
-                player.Lives.Display(); // ← 0. linia: życia
+                player.Lives.Display(); 
                 Console.SetCursorPosition(0, 1);
-                Console.WriteLine($"Mikstury: {player.GetPotionCount()}".PadRight(Console.WindowWidth)); // ← 1. linia
-                level.Display(); // ← od 2. linii w dół
+                Console.WriteLine($"Mikstury: {player.GetPotionCount()}".PadRight(Console.WindowWidth)); 
+                Console.WriteLine("Inwentarz: " + player.GetInventoryDisplay().PadRight(Console.WindowWidth));
+                level.Display();
 
                 if ((DateTime.Now - messageShownTime).TotalMilliseconds < messageDisplayDuration)
                     Console.WriteLine(infoMessage.PadRight(Console.WindowWidth));
@@ -101,11 +102,31 @@ namespace GameProject
                         case ConsoleKey.S: newPosition.y += 1; break;
                         case ConsoleKey.A: newPosition.x -= 1; break;
                         case ConsoleKey.D: newPosition.x += 1; break;
-                        case ConsoleKey.Q:
+                        case ConsoleKey.Escape: return;
+                        case ConsoleKey.H:
                             infoMessage = player.UseItem();
                             messageShownTime = DateTime.Now;
                             break;
-                        case ConsoleKey.Escape: return;
+                        case ConsoleKey.Q:
+                            if (player.UseKey())
+                            {
+                                if (level.UseKey())
+                                {
+                                    infoMessage = "Użyto klucza, drzwi zostały otwarte.";
+                                }
+                                else
+                                {
+                                    infoMessage = "Nie można użyć klucza tutaj.";
+                                    player.Inventory.Add('?');
+                                }
+                            }
+                            else
+                            {
+                                infoMessage = "Nie masz klucza!";
+                            }
+                            messageShownTime = DateTime.Now;
+                            break;
+
                     }
 
                     if (level.IsWalkable(newPosition.x, newPosition.y))
@@ -122,13 +143,20 @@ namespace GameProject
                             if (level.GetCellVisual(playerPosition) == 'o')
                                 playerPosition = level.GetOtherTeleport(playerPosition);
 
-                            // Sprawdzenie, czy na nowej pozycji jest mikstura
+
                             if (level.GetCellVisual(playerPosition) == '8')
                             {
                                 player.CollectHealingPotion();
-                                level.OccupyCell(playerPosition, player); // zajmij pole (mikstura zniknie)
+                                level.OccupyCell(playerPosition, player); 
                                 infoMessage = "Zebrałeś miksturę!";
                                 messageShownTime = DateTime.Now;
+                            }
+                            else if (level.GetCellVisual(playerPosition) == '?')
+                            {
+                                player.AddItemToInventory('?');
+                                 level.OccupyCell(playerPosition, player); 
+                                 infoMessage = "Zebrałeś klucz!";
+                                 messageShownTime = DateTime.Now;
                             }
                             else
                             {

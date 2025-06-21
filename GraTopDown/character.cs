@@ -5,12 +5,12 @@ namespace GameProject
 {
     class Character
     {
-        public List<string> HeldItems { get; }
+        public List<char> Inventory { get; } = new();
         public char Symbol { get; }
         public Lives Lives { get; }
 
-        private int potionCount = 1; // zaczynamy z 1 miksturą
-
+        public List<string> HeldItems { get; }
+        private int potionCount = 1; 
         public int PotionCount => potionCount;
 
         public Character(char symbol)
@@ -21,6 +21,45 @@ namespace GameProject
             Lives = new Lives();
         }
 
+        public void AddItemToInventory(char itemSymbol)
+        {
+            Inventory.Add(itemSymbol);
+        }
+
+        public string GetInventoryDisplay()
+        {
+            if (Inventory.Count == 0)
+                return "[][][]";
+
+            int slots = 3;
+            var displayItems = new List<string>();
+
+            for (int i = 0; i < slots; i++)
+            {
+                if (i < Inventory.Count)
+                    displayItems.Add($"[{Inventory[i]}]");
+                else
+                    displayItems.Add("[ ]");
+            }
+            return string.Join("", displayItems);
+
+        }
+
+        public bool UseKey()
+        {
+            if (Inventory.Contains('?'))
+            {
+                Inventory.Remove('?');
+                return true;
+
+            }
+            return false;
+
+        }
+
+
+
+
         public void CollectHealingPotion()
         {
             potionCount++;
@@ -28,7 +67,7 @@ namespace GameProject
 
         public string UseItem()
         {
-            if (potionCount > 0 && Lives.Heal()) // Heal() zwraca true jeśli udało się uleczyć
+            if (potionCount > 0 && Lives.Heal()) 
             {
                 potionCount--;
                 return "Użyto mikstury. Odzyskano życie.";
