@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
+using GameProject;
 
 namespace GameProject
 {
@@ -110,11 +111,11 @@ namespace GameProject
         }
 
         public void SetCellVisual(Point pos, char symbol)
-            {
-                levelData[pos.y][pos.x].Visual = symbol;
-            }
+        {
+            levelData[pos.y][pos.x].Visual = symbol;
+        }
 
-        
+
         private bool IsAdjacent(Point a, Point b)
         {
             int dx = Math.Abs(a.x - b.x);
@@ -264,7 +265,7 @@ namespace GameProject
             {
                 (1, 10, 2, 3, 1),
                 (1, 10, 6, 7, 1),
-                (27, 32, 18, 22, 2)
+                (27, 32, 18, 22, 1)
             };
 
             foreach (var (x1, x2, y1, y2, count) in prisonerZones)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using GameProject;
 
 namespace GameProject
 {
@@ -168,6 +169,11 @@ namespace GameProject
 
                             }
                             level.OccupyCell(playerPosition, player);
+                            if (DialogueManager.TryTriggerDialogue(playerPosition, level))
+                            {
+                                infoMessage = "Rozmowa z więźniem zakończona.";
+                                messageShownTime = DateTime.MinValue;
+                            }
                         }
                     }
                 }

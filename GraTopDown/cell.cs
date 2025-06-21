@@ -20,7 +20,7 @@ class Cell
             Console.ForegroundColor = ConsoleColor.Magenta;
 
         if (occupant?.Symbol == '$')
-            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.Red;
             
         if (Visual == 'T')
             Console.ForegroundColor = ConsoleColor.Green;
@@ -44,10 +44,10 @@ class Cell
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
 
          if (Visual == '?')
-            Console.ForegroundColor = ConsoleColor.Red;   
+            Console.ForegroundColor = ConsoleColor.Blue;   
 
         if (Visual == 's')
-            Console.ForegroundColor = ConsoleColor.Blue; 
+            Console.ForegroundColor = ConsoleColor.Red; 
 
 
         if (Visual == 'P')
