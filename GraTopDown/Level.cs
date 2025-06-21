@@ -148,11 +148,7 @@ namespace GameProject
                 character.AddItemToInventory('?');
                 levelData[pos.y][pos.x].Visual = '.';
             }
-            else if (current == '*') // drugie drzwi
-            {
-                OpenDoors(pos);
-            }
-
+        
             // zbieranie mikstury
             if (current == '8')
             {

@@ -157,7 +157,7 @@ namespace GameProject
 
                             char cell = level.GetCellVisual(playerPosition);
 
-                            if (cell == 'M')
+                            if (cell == 'M') //Wygrana gracza (META)
                             {
                                 Console.Clear();
                                 Console.WriteLine("Gratulacje! Udało ci się uciec! Wciśnij ENTER aby wyjść z gry..");
