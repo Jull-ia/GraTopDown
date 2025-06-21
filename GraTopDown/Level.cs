@@ -21,7 +21,7 @@ namespace GameProject
             "############.....#---------#..[?]..#",
             "#....==....#.....#---------#.......###########################################",
             "#o.........|.....#---------#.......#--------------T--------------------------#",
-            "#..........#.....#-------####/###############------------T------------T------#",
+            "#..........#.....#-------####_###############------------T------------T------#",
             "############.....#########.......#..........######---------------------------#",
             "#........................#.......#..........#....#-------------T-------------#",
             "#o......................./.......|.....?..../....|------------------------M--#",
@@ -89,7 +89,8 @@ namespace GameProject
                 && levelData[y][x].Visual != '#'
                 && levelData[y][x].Visual != 'T'
                 && levelData[y][x].Visual != '_'
-                && levelData[y][x].Visual != '|';
+                && levelData[y][x].Visual != '|'
+                && levelData[y][x].Visual != '=';
         }
 
         public bool UseKey(Point playerPosition)
@@ -102,7 +103,7 @@ namespace GameProject
                 // sprawdzanie czy gracz stoi obok drzwi i otwiernie drzwi powiązanych z kluczem
                 if (IsAdjacent(playerPosition, doorPos))
                 {
-                    OpenDoors(keyPos);
+                    OpenDoors(doorPos);
                     return true;
                 }
             }
@@ -123,14 +124,18 @@ namespace GameProject
             return (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
         }
 
-        private void OpenDoors(Point pos)
+        private void OpenDoors(Point doorPosition)
         {
-            if (keysAndDoors.TryGetValue(pos, out Point doorPosition))
+            foreach (var pair in keysAndDoors)
             {
-                char doorChar = levelData[doorPosition.y][doorPosition.x].Visual;
-                if (doorChar == '|' || doorChar == '_')
+                if (pair.Value.Equals(doorPosition))
                 {
-                    levelData[doorPosition.y][doorPosition.x].Visual = '/';
+                    char doorChar = levelData[doorPosition.y][doorPosition.x].Visual;
+                    if (doorChar == '|' || doorChar == '_')
+                    {
+                        levelData[doorPosition.y][doorPosition.x].Visual = '/';
+                    }
+                    break; // otwiera tylko te jedne drzwi
                 }
             }
         }
@@ -148,7 +153,7 @@ namespace GameProject
                 character.AddItemToInventory('?');
                 levelData[pos.y][pos.x].Visual = '.';
             }
-        
+
             // zbieranie mikstury
             if (current == '8')
             {
@@ -283,6 +288,29 @@ namespace GameProject
                         }
                     }
                 }
+            }
+        }
+
+        public void ReplaceChar(char oldChar, char newChar)
+        {
+            for (int y = 0; y < levelData.Length; y++)
+            {
+                for (int x = 0; x < levelData[y].Length; x++)
+                {
+                    if (levelData[y][x].Visual == oldChar)
+                    {
+                        levelData[y][x].Visual = newChar;
+                    }
+                }
+            }
+        }
+
+        public void OpenSpecificDoor()
+        {
+            Point doorPosition = new Point(29, 11);
+            if (levelData[doorPosition.y][doorPosition.x].Visual == '_')
+            {
+                levelData[doorPosition.y][doorPosition.x].Visual = '/';
             }
         }
     }

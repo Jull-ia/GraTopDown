@@ -5,7 +5,7 @@ using GameProject;
 
 namespace GameProject
 {
-    class Game
+    public class Game
     {
         private Level level;
         private Point playerPosition;
@@ -19,6 +19,7 @@ namespace GameProject
         private const int messageDisplayDuration = 5000;
         private Point snakeStartRoomPosition;
         private readonly Point snakeHitReturnPoint = new Point(31, 14);
+        private bool recentlyTalkedToPrisoner = false;
 
         public Game()
         {
@@ -187,10 +188,13 @@ namespace GameProject
 
                             }
                             level.OccupyCell(playerPosition, player);
-                            if (DialogueManager.TryTriggerDialogue(playerPosition, level))
+                            if (DialogueManager.TryTriggerDialogue(playerPosition, level, out string msg, out bool unlockDoors))
                             {
                                 infoMessage = "Rozmowa z więźniem zakończona.";
                                 messageShownTime = DateTime.MinValue;
+
+                                if (unlockDoors)
+                                level.OpenSpecificDoor();
                             }
                         }
                     }

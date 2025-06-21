@@ -16,14 +16,13 @@ namespace GameProject
             return this.x == other.x && this.y == other.y;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is Point other && Equals(other);
         }
 
         public override int GetHashCode()
         {
-            // Dobry sposób na wyliczenie hashcode dla pary intów
             return HashCode.Combine(x, y);
         }
 
