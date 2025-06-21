@@ -148,6 +148,15 @@ namespace GameProject
 
                             char cell = level.GetCellVisual(playerPosition);
 
+                            if (cell == 'M')
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Gratulacje! Udało ci się uciec! Wciśnij ENTER aby wyjść z gry..");
+                                while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
+                                return;
+
+                            }
+
                             bool wasPotion = (cell == '8');
                             bool wasKey = (cell == '?');
 
