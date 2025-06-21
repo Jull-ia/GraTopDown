@@ -9,16 +9,15 @@ namespace GameProject
         private Level level;
         private Point playerPosition;
         private Character player;
-
         private List<NPC> npcs = new();
         private Dictionary<NPC, Point> npcPositions = new();
-
         private Snake snake;
         private List<Point> snakePath;
-
         private string infoMessage = "";
         private DateTime messageShownTime = DateTime.MinValue;
         private const int messageDisplayDuration = 5000;
+        private Point snakeStartRoomPosition;
+        private readonly Point snakeHitReturnPoint = new Point(31, 14);
 
         public Game()
         {
@@ -29,6 +28,7 @@ namespace GameProject
 
             InitNPCs();
             InitSnake();
+            snakeStartRoomPosition = snakePath[0];
             level.PlaceHealingPotions(2);
         }
 
@@ -50,19 +50,15 @@ namespace GameProject
         {
             snakePath = new List<Point>();
 
-            // Prawo
             for (int x = 36; x <= 41; x++)
                 snakePath.Add(new Point(x, 13));
 
-            // Dół
             for (int y = 14; y <= 15; y++)
                 snakePath.Add(new Point(41, y));
 
-            // Lewo
             for (int x = 40; x >= 36; x--)
                 snakePath.Add(new Point(x, 15));
 
-            // Góra
             for (int y = 14; y >= 13; y--)
                 snakePath.Add(new Point(36, y));
 
@@ -82,7 +78,7 @@ namespace GameProject
                 Console.SetCursorPosition(0, 0);
                 player.Lives.Display(); 
                 Console.SetCursorPosition(0, 1);
-                Console.WriteLine($"Mikstury: {player.GetPotionCount()}".PadRight(Console.WindowWidth)); 
+                Console.WriteLine($"Mikstury: {player.GetPotionCount()}".PadRight(Console.WindowWidth));
                 Console.WriteLine("Inwentarz: " + player.GetInventoryDisplay().PadRight(Console.WindowWidth));
                 level.Display();
 
@@ -131,10 +127,15 @@ namespace GameProject
 
                     if (level.IsWalkable(newPosition.x, newPosition.y))
                     {
-                        if (IsNpcAtPosition(newPosition) || IsSnakeAtPosition(newPosition))
+                        if (IsNpcAtPosition(newPosition))
                         {
-                            HandlePlayerHit();
+                            HandlePlayerHit(false);
                         }
+                        else if (IsSnakeAtPosition(newPosition))
+                        {
+                            HandlePlayerHit(true);
+                        }
+                        
                         else
                         {
                             level.LeaveCell(playerPosition);
@@ -144,19 +145,24 @@ namespace GameProject
                                 playerPosition = level.GetOtherTeleport(playerPosition);
 
 
-                            if (level.GetCellVisual(playerPosition) == '8')
+                            char cell = level.GetCellVisual(playerPosition);
+
+                            bool wasPotion = (cell == '8');
+
+                            level.OccupyCell(playerPosition, player);
+
+                            if (wasPotion)
                             {
-                                player.CollectHealingPotion();
-                                level.OccupyCell(playerPosition, player); 
                                 infoMessage = "Zebrałeś miksturę!";
                                 messageShownTime = DateTime.Now;
                             }
+
                             else if (level.GetCellVisual(playerPosition) == '?')
                             {
                                 player.AddItemToInventory('?');
-                                 level.OccupyCell(playerPosition, player); 
-                                 infoMessage = "Zebrałeś klucz!";
-                                 messageShownTime = DateTime.Now;
+                                level.OccupyCell(playerPosition, player);
+                                infoMessage = "Zebrałeś klucz!";
+                                messageShownTime = DateTime.Now;
                             }
                             else
                             {
@@ -181,7 +187,7 @@ namespace GameProject
                     level.DrawSnake(snake.GetBody());
 
                     if (IsSnakeAtPosition(playerPosition))
-                        HandlePlayerHit();
+                        HandlePlayerHit(true);
 
                     lastSnakeMoveTime = now;
                 }
@@ -202,7 +208,7 @@ namespace GameProject
                 Point next = npc.GetNextMove();
 
                 if (next.Equals(playerPosition))
-                    HandlePlayerHit();
+                    HandlePlayerHit(false);
 
                 if (level.IsWalkable(next.x, next.y) && !npcPositions.ContainsValue(next))
                 {
@@ -227,11 +233,21 @@ namespace GameProject
             return false;
         }
 
-        private void HandlePlayerHit()
+        private void HandlePlayerHit(bool hitBySnake = false)
         {
             player.Lives.LoseLife();
             level.LeaveCell(playerPosition);
-            playerPosition = level.GetStartNearFirstTeleport(5);
+
+            if (hitBySnake)
+            {
+                playerPosition = snakeHitReturnPoint;
+            }
+            else
+            {
+                playerPosition = level.GetStartNearFirstTeleport(5);
+            }
+
+
             level.OccupyCell(playerPosition, player);
         }
     }
