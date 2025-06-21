@@ -135,7 +135,7 @@ namespace GameProject
                         {
                             HandlePlayerHit(true);
                         }
-                        
+
                         else
                         {
                             level.LeaveCell(playerPosition);
@@ -148,24 +148,26 @@ namespace GameProject
                             char cell = level.GetCellVisual(playerPosition);
 
                             bool wasPotion = (cell == '8');
+                            bool wasKey = (cell == '?');
 
-                            level.OccupyCell(playerPosition, player);
 
                             if (wasPotion)
                             {
                                 infoMessage = "Zebrałeś miksturę! Naciśnij H aby jej użyć.";
                                 messageShownTime = DateTime.Now;
+
                             }
 
-                            else if (level.GetCellVisual(playerPosition) == '?')
+                            else if (wasKey)
                             {
                                 player.AddItemToInventory('?');
-                                level.OccupyCell(playerPosition, player);
                                 infoMessage = "Zebrałeś klucz! Naciśnij Q aby go użyć.";
                                 messageShownTime = DateTime.Now;
+                                level.SetCellVisual(playerPosition, '.');
 
-                                level.OccupyCell(playerPosition, player);
+
                             }
+                            level.OccupyCell(playerPosition, player);
                         }
                     }
                 }

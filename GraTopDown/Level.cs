@@ -104,6 +104,11 @@ namespace GameProject
             return false;
         }
 
+        public void SetCellVisual(Point pos, char symbol)
+            {
+                levelData[pos.y][pos.x].Visual = symbol;
+            }
+
         
         private bool IsAdjacent(Point a, Point b)
         {
