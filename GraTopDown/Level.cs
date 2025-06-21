@@ -10,11 +10,11 @@ namespace GameProject
         {
 
             "##################",
-            "#.P..==....#.....#",
+            "#....==....#.....#",
             "#..........|.....#",
             "#..........#.....#",
             "############.....#",
-            "#...P==....#.....#",
+            "#....==....#.....#",
             "#..........|.....#",
             "#..........#.....#---------#########",
             "############.....#---------#..[?]..#",
@@ -29,9 +29,9 @@ namespace GameProject
             "-------------------------####/#########_#####--------------------------------#",
             "-------------------------#.....#----#......#--------------------T------------#",
             "-------------------------##...##----#....*.###################################",
-            "-------------------------#....P#----########",
+            "-------------------------#.....#----########",
             "-------------------------##...##",
-            "-------------------------#P....#",
+            "-------------------------#.....#",
             "-------------------------#######",
         };
 
@@ -62,6 +62,7 @@ namespace GameProject
                 }
                 levelData[y] = dataRow;
             }
+            PlacePrisoners();
         }
 
         public void Display()
@@ -86,7 +87,7 @@ namespace GameProject
                 && levelData[y][x].Visual != '|';
         }
 
-                public bool UseKey(Point playerPosition)
+        public bool UseKey(Point playerPosition)
         {
             foreach (var kvp in keysAndDoors)
             {
@@ -96,7 +97,7 @@ namespace GameProject
                 // sprawdzanie czy gracz stoi obok drzwi i otwiernie drzwi powiązanych z kluczem
                 if (IsAdjacent(playerPosition, doorPos))
                 {
-                    OpenDoors(keyPos); 
+                    OpenDoors(keyPos);
                     return true;
                 }
             }
@@ -104,7 +105,7 @@ namespace GameProject
             return false;
         }
 
-        
+
         private bool IsAdjacent(Point a, Point b)
         {
             int dx = Math.Abs(a.x - b.x);
@@ -131,15 +132,15 @@ namespace GameProject
 
             char current = levelData[pos.y][pos.x].Visual;
 
-             //otwieranie drzwi
-             if (current == '?')
-             {
-                  character.AddItemToInventory('?'); 
-                  levelData[pos.y][pos.x].Visual = '.';
-             }
-             else if (current == '*') // drugie drzwi
-             {
-                    OpenDoors(pos); 
+            //otwieranie drzwi
+            if (current == '?')
+            {
+                character.AddItemToInventory('?');
+                levelData[pos.y][pos.x].Visual = '.';
+            }
+            else if (current == '*') // drugie drzwi
+            {
+                OpenDoors(pos);
             }
 
             // zbieranie mikstury
@@ -236,7 +237,7 @@ namespace GameProject
             foreach (var pos in body)
             {
                 if (IsInsideBounds(pos))
-                    levelData[pos.y][pos.x].Visual = '.'; 
+                    levelData[pos.y][pos.x].Visual = '.';
             }
         }
 
@@ -244,6 +245,39 @@ namespace GameProject
         {
             return pos.y >= 0 && pos.y < levelData.Length &&
                 pos.x >= 0 && pos.x < levelData[pos.y].Length;
+        }
+
+        public void PlacePrisoners()
+        {
+            Random rand = new Random();
+
+            List<(int x1, int x2, int y1, int y2, int count)> prisonerZones = new()
+            {
+                (1, 10, 2, 3, 1),
+                (1, 10, 6, 7, 1),
+                (27, 32, 18, 22, 2)
+            };
+
+            foreach (var (x1, x2, y1, y2, count) in prisonerZones)
+            {
+                int placed = 0;
+
+                while (placed < count)
+                {
+                    int x = rand.Next(x1, x2 + 1);
+                    int y = rand.Next(y1, y2 + 1);
+
+                    if (IsInsideBounds(new Point(x, y)))
+                    {
+                        var cell = levelData[y][x];
+                        if (cell.Visual == '.' && !cell.IsOccupied())
+                        {
+                            cell.Visual = 'P';
+                            placed++;
+                        }
+                    }
+                }
+            }
         }
     }
 }
