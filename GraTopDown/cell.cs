@@ -43,6 +43,16 @@ class Cell
         if (Visual == '=')
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
 
+         if (Visual == '?')
+            Console.ForegroundColor = ConsoleColor.Red;   
+
+        if (Visual == 's')
+            Console.ForegroundColor = ConsoleColor.Blue; 
+
+
+        if (Visual == 'P')
+            Console.ForegroundColor = ConsoleColor.Magenta; 
+
         Console.Write(occupant != null ? occupant.Symbol : Visual);
         Console.ResetColor();
     }
