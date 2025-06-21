@@ -35,12 +35,12 @@ namespace GameProject
         private static bool HandleDialogue(out string resultMessage, out bool unlockDoors)
         {
             resultMessage = "";
-            unlockDoors = false;
+            unlockDoors = true;
 
             Console.Clear();
             Console.WriteLine("Więzień: To chyba nie twoja kolej na branie prysznica...");
-            Console.WriteLine("1 - Uciekam stąd, wiesz gdzie znajdę klucz do drzwi?");
-            Console.WriteLine("2 - Co ty możesz wiedzieć, teraz ja się myję!");
+            Console.WriteLine("1 - Uciekam stąd, wiesz gdzie znajdę klucz do bocznych drzwi?");
+            Console.WriteLine("2 - Taa taa... wiesz może kiedy te boczne drzwi będą dla nas otwarte?");
 
             while (true)
             {
@@ -48,8 +48,7 @@ namespace GameProject
                 if (key == ConsoleKey.D1 || key == ConsoleKey.NumPad1)
                 {
                     Console.Clear();
-                    Console.WriteLine("Więzień: HAHA, Ty i te twoje pomysły. Jakiekolwiek klucze na pewno będą w biurze Strażnika.");
-                    resultMessage = "Więzień powiedział, że drzwi są już otwarte!";
+                    Console.WriteLine("Więzień: HAHA, Ty i te twoje pomysły. Jakieś klucze na pewno będą w biurze Strażnika, ale nie wiesz tego ode mnie... powodzenia młody.");
                     unlockDoors = true;
 
                     Console.WriteLine("\n[Wciśnij Enter aby kontynuować]");
@@ -61,9 +60,8 @@ namespace GameProject
                 else if (key == ConsoleKey.D2 || key == ConsoleKey.NumPad2)
                 {
                     Console.Clear();
-                    Console.WriteLine("Więzień: Dobra dobra, ale nie zużyj całej ciepłej wody!");
-                    resultMessage = "Rozmowa zakończona bez efektu.";
-                    unlockDoors = false;
+                    Console.WriteLine("A skąd ja mam to wiedzieć? Chociaż słyszałem, że jeden ze strażników tak często gubił klucze, że w biurze jest zawsze zapasowa para. Nie wiesz tego ode mnie...");
+                    unlockDoors = true;
 
                     Console.WriteLine("\n[Wciśnij Enter aby kontynuować]");
                     while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
