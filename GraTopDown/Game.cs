@@ -68,6 +68,15 @@ namespace GameProject
 
         public void Run()
         {
+            // Wstęp do gry
+            Console.Title = "Prison Escape";
+            Console.Clear();
+            Console.WriteLine("Witaj w Prison Escape! Twoim celem jest ucieczka z więzienia. Szukaj kluczy do wyjścia, unikaj strażników i nie daj się zauważyć!");
+            Console.WriteLine("Od miesięcy planowałeś ten podkop. Znasz to miejsce na wylot. Droga nie jest długa, lecz nie jest łatwa. Musisz wreszcie uciec z tego miejsca!");
+            Console.WriteLine("Wciśnij ENTER aby rozpocząć grę...");
+            while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
+            Console.Clear();
+
             var lastNpcMoveTime = DateTime.Now;
             int npcMoveIntervalMs = 320;
 
