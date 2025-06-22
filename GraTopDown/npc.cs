@@ -8,7 +8,7 @@ namespace GameProject
         private int currentIndex;
         private int direction = 1;
 
-        public NPC(List<Point> path) : base('$')
+        public NPC(List<Point> path, char visual = '$') : base(visual)
         {
             this.path = path;
             currentIndex = 0;

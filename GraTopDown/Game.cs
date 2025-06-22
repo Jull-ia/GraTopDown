@@ -36,16 +36,27 @@ namespace GameProject
 
         private void InitNPCs()
         {
-            var path = new List<Point>();
+            var path1 = new List<Point>();
             for (int y = 3; y <= 15; y++)
             {
-                path.Add(new Point(14, y));
+                path1.Add(new Point(14, y));
             }
 
-            var npc = new NPC(path);
-            npcs.Add(npc);
-            npcPositions[npc] = path[0];
-            level.OccupyCell(path[0], npc);
+            var npc1 = new NPC(path1, '$');
+            npcs.Add(npc1);
+            npcPositions[npc1] = path1[0];
+            level.OccupyCell(path1[0], npc1);
+
+            var path2 = new List<Point>();
+            for (int x = 28; x <= 34; x++)
+            {
+                path2.Add(new Point(x, 9));
+            }
+
+            var npc2 = new NPC(path2, '$');
+            npcs.Add(npc2);
+            npcPositions[npc2] = path2[0];
+            level.OccupyCell(path2[0], npc2);
         }
 
         private void InitSnake()
