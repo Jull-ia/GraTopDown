@@ -30,7 +30,7 @@ namespace GameProject
 
                 if (visual == 'S' && !talkedToS.Contains(adjacent))
                 {
-                    bool result = HandleSDialogue(out message, out unlockDoors);
+                    bool result = HandleSDialogue(adjacent, level, out message, out unlockDoors);
                     talkedToS.Add(adjacent);
                     return result;
                 }
@@ -81,10 +81,10 @@ namespace GameProject
             }
         }
 
-        private static bool HandleSDialogue(out string resultMessage, out bool unlockDoors)
+        private static bool HandleSDialogue(Point guardPos, Level level, out string resultMessage, out bool unlockDoors)
         {
             resultMessage = "";
-            unlockDoors = false; // na przykład, ten NPC nie odblokowuje drzwi
+            unlockDoors = false;
 
             Console.Clear();
             Console.WriteLine("Strażnik kumpel: Co ty tu robisz? Wiesz, że nie powinno cię tu być.");
@@ -104,6 +104,7 @@ namespace GameProject
                     while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
 
                     Console.Clear();
+                    PlayRockPaperScissors(guardPos, level);
                     return true;
                 }
                 else if (key == ConsoleKey.D2 || key == ConsoleKey.NumPad2)
@@ -116,7 +117,60 @@ namespace GameProject
                     while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
 
                     Console.Clear();
+                    PlayRockPaperScissors(guardPos, level);
                     return true;
+                }
+            }
+        }
+
+        private static bool PlayRockPaperScissors(Point guardPos, Level level)
+        {
+            string[] allowedSigns = { "papier", "kamien", "nozyce" };
+            const string firstAllowedSign = "papier";
+            const string secondAllowedSign = "kamien";
+            const string thirdAllowedSign = "nozyce";
+            Random random = new Random();
+
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine($"Podaj znak ({string.Join("/", allowedSigns)}):");
+
+                string firstSign = Console.ReadLine()?.ToLower().Trim() ?? string.Empty;
+
+                while (!allowedSigns.Contains(firstSign))
+                {
+                    Console.WriteLine("Nawet tego cię matka nie nauczyła?..");
+                    Console.WriteLine($"Podaj POPRAWNY znak! ({string.Join("/", allowedSigns)}):");
+                    firstSign = Console.ReadLine()?.ToLower().Trim() ?? string.Empty;
+                }
+
+                string secondSign = allowedSigns[random.Next(allowedSigns.Length)];
+                Console.WriteLine($"Strażnik wybrał: {secondSign}");
+
+                if (firstSign == secondSign)
+                {
+                    Console.WriteLine("Remis! Szykuje się dogrywka! Nie wypuszczę Cię tak szybko!");
+                    Console.ReadKey();
+                }
+                else if (
+                    (firstSign == firstAllowedSign && secondSign == thirdAllowedSign) ||
+                    (firstSign == secondAllowedSign && secondSign == firstAllowedSign) ||
+                    (firstSign == thirdAllowedSign && secondSign == secondAllowedSign)
+                )
+                {
+                    Console.WriteLine("W porządku, wygrałeś.. uciekaj, będę tęsknił...");
+                    Console.ReadKey();
+                    level.SetCellVisual(guardPos, '.');
+                    Console.Clear();
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("No to chyba sobie tu postoisz. Gramy dalej!");
+                    Console.ReadKey();
+                    Console.Clear();
+                    return false;
                 }
             }
         }
