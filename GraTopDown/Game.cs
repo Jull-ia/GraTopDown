@@ -19,7 +19,7 @@ namespace GameProject
         private const int messageDisplayDuration = 5000;
         private Point snakeStartRoomPosition;
         private readonly Point snakeHitReturnPoint = new Point(31, 14);
-        private bool recentlyTalkedToPrisoner = false;
+        private bool ?recentlyTalkedToPrisoner = false;
 
         public Game()
         {
@@ -72,9 +72,14 @@ namespace GameProject
             // Wstęp do gry
             Console.Title = "Prison Escape";
             Console.Clear();
-            Console.WriteLine("Witaj w Prison Escape! Twoim celem jest ucieczka z więzienia. Szukaj kluczy do wyjścia, unikaj strażników i nie daj się zauważyć!");
-            Console.WriteLine("Od miesięcy planowałeś ten podkop. Znasz to miejsce na wylot. Droga nie jest długa, lecz nie jest łatwa. Musisz wreszcie uciec z tego miejsca!");
-            Console.WriteLine("Wciśnij ENTER aby rozpocząć grę...");
+            Console.WriteLine("Witaj w Prison Escape!");
+            Console.WriteLine();
+            Console.WriteLine("Twoim celem jest ucieczka z więzienia. Szukaj kluczy do wyjścia, unikaj strażników i nie daj się zauważyć!");
+            Console.WriteLine("Od miesięcy planowałeś ten podkop. Znasz to miejsce na wylot. Droga nie jest długa, lecz nie jest łatwa.");
+            Console.WriteLine("Musisz wreszcie uciec z tego miejsca!");
+            Console.WriteLine();
+            Console.WriteLine("[Wciśnij ENTER aby rozpocząć grę...]");
+
             while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
             Console.Clear();
 
@@ -161,7 +166,8 @@ namespace GameProject
                             if (cell == 'M') //Wygrana gracza (META)
                             {
                                 Console.Clear();
-                                Console.WriteLine("Gratulacje! Udało ci się uciec! Wciśnij ENTER aby wyjść z gry..");
+                                Console.WriteLine("Gratulacje! Udało ci się uciec!");
+                                Console.WriteLine("[Wciśnij ENTER aby wyjść z gry..]");
                                 while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
                                 return;
 
@@ -173,7 +179,7 @@ namespace GameProject
 
                             if (wasPotion)
                             {
-                                infoMessage = "Zebrałeś miksturę! Naciśnij H aby jej użyć.";
+                                infoMessage = "Zebrałeś miksturę! [Naciśnij H aby jej użyć.]";
                                 messageShownTime = DateTime.Now;
 
                             }
@@ -181,7 +187,7 @@ namespace GameProject
                             else if (wasKey)
                             {
                                 player.AddItemToInventory('?');
-                                infoMessage = "Zebrałeś klucz! Naciśnij Q aby go użyć.";
+                                infoMessage = "Zebrałeś klucz! [Naciśnij Q aby go użyć.]";
                                 messageShownTime = DateTime.Now;
                                 level.SetCellVisual(playerPosition, '.');
 
@@ -225,7 +231,10 @@ namespace GameProject
 
             Console.Clear();
             Console.WriteLine("KONIEC GRY. Straciłeś wszystkie życia.");
-            Console.ReadKey();
+            Console.WriteLine("[Wciśnij ENTER aby wyjść z gry..]");
+             while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
+             return;
+        
         }
 
         private void MoveNPCs()
