@@ -151,6 +151,7 @@ namespace GameProject
                 if (firstSign == secondSign)
                 {
                     Console.WriteLine("Remis! Szykuje się dogrywka! Nie wypuszczę Cię tak szybko!");
+                     Console.WriteLine("\n[Wciśnij Enter aby kontynuować]");
                     Console.ReadKey();
                 }
                 else if (
@@ -160,6 +161,7 @@ namespace GameProject
                 )
                 {
                     Console.WriteLine("W porządku, wygrałeś.. uciekaj, będę tęsknił...");
+                    Console.WriteLine("\n[Wciśnij Enter aby kontynuować]");
                     Console.ReadKey();
                     level.SetCellVisual(guardPos, '.');
                     Console.Clear();
@@ -168,9 +170,10 @@ namespace GameProject
                 else
                 {
                     Console.WriteLine("No to chyba sobie tu postoisz. Gramy dalej!");
+                    Console.WriteLine("\n[Wciśnij Enter aby kontynuować]");
                     Console.ReadKey();
                     Console.Clear();
-                    return false;
+                    continue;
                 }
             }
         }
