@@ -49,6 +49,8 @@ namespace GameProject
         private List<Point> teleportPoints = new();
         private Random random = new();
 
+        private int unlockedDoorsCount = 0;
+
         public Level()
         {
             levelData = new Cell[levelVisuals.Length][];
@@ -93,31 +95,33 @@ namespace GameProject
                 && levelData[y][x].Visual != '=';
         }
 
-        public bool UseKey(Point playerPosition)
+        public bool UseKey(Point playerPosition, Character character) //otwieranie drzwi w odpowiedniej kolejności
         {
-            foreach (var kvp in keysAndDoors)
-            {
-                Point keyPos = kvp.Key;
-                Point doorPos = kvp.Value;
+            if (unlockedDoorsCount >= keysAndDoors.Count)
+                return false;
 
-                // sprawdzanie czy gracz stoi obok drzwi i otwiernie drzwi powiązanych z kluczem
-                if (IsAdjacent(playerPosition, doorPos))
+            var pair = keysAndDoors.ElementAt(unlockedDoorsCount);
+            Point doorPos = pair.Value;
+
+            if (IsAdjacent(playerPosition, doorPos)) //sprawdzanie czy gracz jest przy drziwach
+            {
+                if (character.UseKey())
                 {
                     OpenDoors(doorPos);
+                    unlockedDoorsCount++;
                     return true;
                 }
             }
 
             return false;
         }
-
         public void SetCellVisual(Point pos, char symbol)
         {
             levelData[pos.y][pos.x].Visual = symbol;
         }
 
 
-        private bool IsAdjacent(Point a, Point b)
+        private bool IsAdjacent(Point a, Point b) 
         {
             int dx = Math.Abs(a.x - b.x);
             int dy = Math.Abs(a.y - b.y);
@@ -135,7 +139,7 @@ namespace GameProject
                     {
                         levelData[doorPosition.y][doorPosition.x].Visual = '/';
                     }
-                    break; // otwiera tylko te jedne drzwi
+                    break; 
                 }
             }
         }
@@ -147,7 +151,7 @@ namespace GameProject
 
             char current = levelData[pos.y][pos.x].Visual;
 
-            //otwieranie drzwi
+            //zbieranie klucza
             if (current == '?')
             {
                 character.AddItemToInventory('?');
@@ -305,7 +309,7 @@ namespace GameProject
             }
         }
 
-        public void OpenSpecificDoor()
+        public void OpenSpecificDoor() //drzwi ktore otwieraja sie po skonczonym dialogu
         {
             Point doorPosition = new Point(29, 11);
             if (levelData[doorPosition.y][doorPosition.x].Visual == '_')

@@ -131,22 +131,17 @@ namespace GameProject
                             messageShownTime = DateTime.Now;
                             break;
                         case ConsoleKey.Q: //używanie kluczy tak jak w nazwie xD
-                            if (player.UseKey())
+                             if (level.UseKey(playerPosition, player))
                             {
-                                if (level.UseKey(playerPosition))
-                                {
-                                    infoMessage = "Użyto klucza, drzwi zostały otwarte.";
-                                }
-                                else
-                                {
-                                    infoMessage = "Nie można użyć klucza tutaj.";
-                                    player.Inventory.Add('?');
-                                }
+                                infoMessage = "Użyto klucza, drzwi zostały otwarte.";
                             }
                             else
                             {
-                                infoMessage = "Nie masz klucza!";
+                                infoMessage = player.Inventory.Contains('?') 
+                                    ? "Nie można użyć klucza tutaj."
+                                    : "Nie masz klucza!";
                             }
+
                             messageShownTime = DateTime.Now;
                             break;
 
