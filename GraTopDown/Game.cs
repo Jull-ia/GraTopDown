@@ -72,16 +72,7 @@ namespace GameProject
 
         public void Run()
         {
-            // Wstęp do gry
-            Console.Title = "Prison Escape";
-            Console.Clear();
-            Console.WriteLine("Witaj w Prison Escape!");
-            Console.WriteLine();
-            Console.WriteLine("Twoim celem jest ucieczka z więzienia. Szukaj kluczy do wyjścia, unikaj strażników i nie daj się zauważyć!");
-            Console.WriteLine("Od miesięcy planowałeś ten podkop. Znasz to miejsce na wylot. Droga nie jest długa, lecz nie jest łatwa.");
-            Console.WriteLine("Musisz wreszcie uciec z tego miejsca!");
-            Console.WriteLine();
-            Console.WriteLine("[Wciśnij ENTER aby rozpocząć grę...]");
+            ShowInfo();
 
             while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
             Console.Clear();
@@ -95,7 +86,7 @@ namespace GameProject
             while (player.Lives.IsAlive)
             {
                 Console.SetCursorPosition(0, 0);
-                player.Lives.Display(); 
+                player.Lives.Display();
                 Console.SetCursorPosition(0, 1);
                 Console.WriteLine($"Mikstury: {player.GetPotionCount()}".PadRight(Console.WindowWidth));
                 Console.WriteLine("Inwentarz: " + player.GetInventoryDisplay().PadRight(Console.WindowWidth));
@@ -123,13 +114,13 @@ namespace GameProject
                             messageShownTime = DateTime.Now;
                             break;
                         case ConsoleKey.Q: //używanie kluczy tak jak w nazwie xD
-                             if (level.UseKey(playerPosition, player))
+                            if (level.UseKey(playerPosition, player))
                             {
                                 infoMessage = "Użyto klucza, drzwi zostały otwarte.";
                             }
                             else
                             {
-                                infoMessage = player.Inventory.Contains('?') 
+                                infoMessage = player.Inventory.Contains('?')
                                     ? "Nie można użyć klucza tutaj."
                                     : "Nie masz klucza!";
                             }
@@ -198,7 +189,7 @@ namespace GameProject
                                 messageShownTime = DateTime.MinValue;
 
                                 if (unlockDoors)
-                                level.OpenSpecificDoor();
+                                    level.OpenSpecificDoor();
                             }
                         }
                     }
@@ -230,9 +221,31 @@ namespace GameProject
             Console.Clear();
             Console.WriteLine("KONIEC GRY. Straciłeś wszystkie życia.");
             Console.WriteLine("[Wciśnij ENTER aby wyjść z gry..]");
-             while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
-             return;
-        
+            while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
+            return;
+
+        }
+
+        private static void ShowInfo()
+        {
+            // Wstęp do gry
+            Console.Title = "Prison Escape";
+            Console.Clear();
+            Console.WriteLine("Witaj w Prison Escape!");
+            Console.WriteLine();
+            Console.WriteLine("Twoim celem jest ucieczka z więzienia. Szukaj kluczy do wyjścia, unikaj strażników i nie daj się zauważyć!");
+            Console.WriteLine("Od miesięcy planowałeś ten podkop. Znasz to miejsce na wylot. Droga nie jest długa, lecz nie jest łatwa.");
+            Console.WriteLine("Musisz wreszcie uciec z tego miejsca!");
+            Console.WriteLine();
+
+            Console.WriteLine("Sterowanie:");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(" W - Góra\n S - Dół\n A - Lewo\n D - Prawo");
+            Console.WriteLine();
+            Console.WriteLine(" Q - Użycie klucza\n H - Leczenie");
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine("[Wciśnij ENTER aby rozpocząć grę...]");
         }
 
         private void MoveNPCs()
@@ -281,8 +294,6 @@ namespace GameProject
             {
                 playerPosition = level.GetStartNearFirstTeleport(5);
             }
-
-
             level.OccupyCell(playerPosition, player);
         }
     }
