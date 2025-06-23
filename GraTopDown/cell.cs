@@ -1,78 +1,79 @@
-using GameProject;
-
-class Cell
+namespace GameProject
 {
-    public char Visual { get; set; }
-    private Character? occupant;
-    public int X { get; }
-    public int Y { get; }
-
-    public Cell(char visual, int x, int y)
+    class Cell
     {
-        Visual = visual;
-        X = x;
-        Y = y;
-    }
+        public char Visual { get; set; }
+        private Character? occupant;
+        public int X { get; }
+        public int Y { get; }
 
-    public void Display()  // kolorowanie elementów
-    {
-        if (occupant?.Symbol == '@')
-            Console.ForegroundColor = ConsoleColor.Magenta;
+        public Cell(char visual, int x, int y)
+        {
+            Visual = visual;
+            X = x;
+            Y = y;
+        }
 
-        if (occupant?.Symbol == '$')
-            Console.ForegroundColor = ConsoleColor.Red;
-            
-        if (Visual == 'T')
-            Console.ForegroundColor = ConsoleColor.Green;
+        public void Display()  // kolorowanie elementów
+        {
+            if (occupant?.Symbol == '@')
+                Console.ForegroundColor = ConsoleColor.Magenta;
 
-        if (Visual == '8')
-            Console.ForegroundColor = ConsoleColor.Cyan;
+            if (occupant?.Symbol == '$')
+                Console.ForegroundColor = ConsoleColor.Red;
 
-        if (Visual == 'M')
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            if (Visual == 'T')
+                Console.ForegroundColor = ConsoleColor.Green;
 
-        if (Visual == 'o')
-            Console.ForegroundColor = ConsoleColor.DarkGray;
+            if (Visual == '8')
+                Console.ForegroundColor = ConsoleColor.Cyan;
 
-        if (Visual == '/')
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            if (Visual == 'M')
+                Console.ForegroundColor = ConsoleColor.Yellow;
 
-        if (Visual == '-')
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            if (Visual == 'o')
+                Console.ForegroundColor = ConsoleColor.DarkGray;
 
-        if (Visual == '=')
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            if (Visual == '/')
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
 
-         if (Visual == '?')
-            Console.ForegroundColor = ConsoleColor.Blue;   
+            if (Visual == '-')
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
 
-        if (Visual == 's')
-            Console.ForegroundColor = ConsoleColor.Red; 
+            if (Visual == '=')
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
 
-        if (Visual == 'P')
-            Console.ForegroundColor = ConsoleColor.Magenta; 
+            if (Visual == '?')
+                Console.ForegroundColor = ConsoleColor.Blue;
 
-        if (Visual == 'S')
-            Console.ForegroundColor = ConsoleColor.DarkRed;
+            if (Visual == 's')
+                Console.ForegroundColor = ConsoleColor.Red;
 
-        Console.Write(occupant != null ? occupant.Symbol : Visual);
-        Console.ResetColor();
-    }
+            if (Visual == 'P')
+                Console.ForegroundColor = ConsoleColor.Magenta;
+
+            if (Visual == 'S')
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+
+            Console.Write(occupant != null ? occupant.Symbol : Visual);
+            Console.ResetColor();
+        }
 
 
-    public void Occupy(Character character)
-    {
-        occupant = character;
-    }
+        public void Occupy(Character character)
+        {
+            occupant = character;
+        }
 
-    public void Leave()
-    {
-        occupant = null;
-    }
+        public void Leave()
+        {
+            occupant = null;
+        }
 
-    
-    public bool IsOccupied()
-    {
-        return occupant != null;
+
+        public bool IsOccupied()
+        {
+            return occupant != null;
+        }
     }
 }

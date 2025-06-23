@@ -9,9 +9,6 @@ namespace GameProject
         {
             currentLives = initialLives;
         }
-
-        public int Current => currentLives;
-        public int Max => maxLives;
         public bool IsAlive => currentLives > 0;
 
         public void LoseLife()

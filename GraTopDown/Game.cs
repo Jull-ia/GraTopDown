@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using GameProject;
-
 namespace GameProject
 {
     public class Game
@@ -13,14 +8,13 @@ namespace GameProject
         private List<NPC> npcs = new();
         private Dictionary<NPC, Point> npcPositions = new();
         private Snake snake;
-        private List<Point> snakePath;
+        private List<Point> snakePath  = new List<Point>();
         private string infoMessage = "";
         private DateTime messageShownTime = DateTime.MinValue;
         private const int messageDisplayDuration = 5000;
         private Point snakeStartRoomPosition;
         private readonly Point snakeHitReturnPoint = new Point(31, 14);
-        private bool ?recentlyTalkedToPrisoner = false;
-
+    
         public Game()
         {
             level = new Level();
@@ -29,7 +23,7 @@ namespace GameProject
             level.OccupyCell(playerPosition, player);
 
             InitNPCs();
-            InitSnake();
+            snake = InitSnake();
             snakeStartRoomPosition = snakePath[0];
             level.PlaceHealingPotions(2);
         }
@@ -59,10 +53,8 @@ namespace GameProject
             level.OccupyCell(path2[0], npc2);
         }
 
-        private void InitSnake()
+        private Snake InitSnake()
         {
-            snakePath = new List<Point>();
-
             for (int x = 36; x <= 41; x++)
                 snakePath.Add(new Point(x, 13));
 
@@ -75,7 +67,7 @@ namespace GameProject
             for (int y = 14; y >= 13; y--)
                 snakePath.Add(new Point(36, y));
 
-            snake = new Snake(snakePath);
+            return new Snake(snakePath);
         }
 
         public void Run()

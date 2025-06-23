@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using GameProject;
-
 namespace GameProject
 {
     class Level
@@ -38,7 +33,7 @@ namespace GameProject
 
         private Dictionary<Point, Point> keysAndDoors = new()
         {
-            { new Point(31, 8), new Point(33, 14) }, //klucz 1 / drzwi 1 y x
+            { new Point(31, 8), new Point(33, 14) }, //klucz 1 / drzwi 1 
             
             {new Point(39,14), new Point(39,17) }, //klucz 2 / drzwi 2
 
@@ -47,7 +42,6 @@ namespace GameProject
 
         private Cell[][] levelData;
         private List<Point> teleportPoints = new();
-        private Random random = new();
 
         private int unlockedDoorsCount = 0;
 
