@@ -135,10 +135,14 @@ namespace GameProject
                         if (IsNpcAtPosition(newPosition))
                         {
                             HandlePlayerHit(false);
+                            infoMessage = "Zostałeś złapany przez strażnika!";
+                            messageShownTime = DateTime.Now;
                         }
                         else if (IsSnakeAtPosition(newPosition))
                         {
                             HandlePlayerHit(true);
+                            infoMessage = "Zostałeś złapany przez Bazyliszka!";
+                            messageShownTime = DateTime.Now;
                         }
 
                         else
