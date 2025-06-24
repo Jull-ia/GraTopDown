@@ -11,7 +11,7 @@ namespace GameProject
         private List<Point> snakePath  = new List<Point>();
         private string infoMessage = "";
         private DateTime messageShownTime = DateTime.MinValue;
-        private const int messageDisplayDuration = 3000;
+        private const int messageDisplayDuration = 5000;
         private Point snakeStartRoomPosition;
         private readonly Point snakeHitReturnPoint = new Point(31, 14);
     
@@ -130,14 +130,25 @@ namespace GameProject
 
                     }
 
-                    if (level.IsWalkable(newPosition.x, newPosition.y)) //Obsługiwanie kolizji z różnymi elementami strażnicy, teleport itp. ;3
+                    if (level.IsWalkable(newPosition.x, newPosition.y))
                     {
-                        CheckCollisionAt(newPosition);
-                    
+                        if (IsNpcAtPosition(newPosition))
+                        {
+                            HandlePlayerHit(false);
+                            infoMessage = "Zostałeś złapany przez strażnika!";
+                            messageShownTime = DateTime.Now;
+                        }
+                        else if (IsSnakeAtPosition(newPosition))
+                        {
+                            HandlePlayerHit(true);
+                            infoMessage = "Zostałeś złapany przez Bazyliszka!";
+                            messageShownTime = DateTime.Now;
+                        }
+
+                        else
                         {
                             level.LeaveCell(playerPosition);
                             playerPosition = newPosition;
-
 
                             if (level.GetCellVisual(playerPosition) == 'o')
                                 playerPosition = level.GetOtherTeleport(playerPosition);
@@ -190,13 +201,13 @@ namespace GameProject
 
                 DateTime now = DateTime.Now;
 
-                if ((now - lastNpcMoveTime).TotalMilliseconds >= npcMoveIntervalMs) //Poruszanie NPC
+                if ((now - lastNpcMoveTime).TotalMilliseconds >= npcMoveIntervalMs)
                 {
                     MoveNPCs();
                     lastNpcMoveTime = now;
                 }
 
-                if ((now - lastSnakeMoveTime).TotalMilliseconds >= snakeMoveIntervalMs) //Poruszanie bazyliszka
+                if ((now - lastSnakeMoveTime).TotalMilliseconds >= snakeMoveIntervalMs)
                 {
                     level.ClearSnake(snake.GetBody());
                     snake.Move();
@@ -210,7 +221,7 @@ namespace GameProject
 
                 Thread.Sleep(10);
             }
-                //Przegrana
+
             Console.Clear();
             Console.WriteLine("KONIEC GRY. Straciłeś wszystkie życia.");
             Console.WriteLine("[Wciśnij ENTER aby wyjść z gry..]");
@@ -249,34 +260,14 @@ namespace GameProject
                 Point next = npc.GetNextMove();
 
                 if (next.Equals(playerPosition))
-                {
                     HandlePlayerHit(false);
-                    infoMessage = "Zostałeś złapany przez strażnika!";
-                    messageShownTime = DateTime.Now;
-                }
 
                 if (level.IsWalkable(next.x, next.y) && !npcPositions.ContainsValue(next))
-                    {
-                        level.LeaveCell(current);
-                        npcPositions[npc] = next;
-                        level.OccupyCell(next, npc);
-                    }
-            }
-        }
-
-        private void CheckCollisionAt(Point position)
-        {
-            if (IsNpcAtPosition(position))
-            {
-                HandlePlayerHit(false);
-                infoMessage = "Zostałeś złapany przez strażnika!";
-                messageShownTime = DateTime.Now;
-            }
-            else if (IsSnakeAtPosition(position))
-            {
-                HandlePlayerHit(true);
-                infoMessage = "Zostałeś złapany przez Bazyliszka!";
-                messageShownTime = DateTime.Now;
+                {
+                    level.LeaveCell(current);
+                    npcPositions[npc] = next;
+                    level.OccupyCell(next, npc);
+                }
             }
         }
 
@@ -302,8 +293,6 @@ namespace GameProject
             if (hitBySnake)
             {
                 playerPosition = snakeHitReturnPoint;
-                infoMessage = "Zostałeś złapany przez Bazyliszka!";
-                messageShownTime = DateTime.Now;
             }
             else
             {

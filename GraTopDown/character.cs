@@ -53,6 +53,12 @@ namespace GameProject
             return false;
 
         }
+
+        public void CollectHealingPotion()
+        {
+            potionCount++;
+        }
+
         public string UseItem()
         {
             if (potionCount > 0 && Lives.Heal()) 
@@ -63,18 +69,13 @@ namespace GameProject
             return "Brak mikstur lub pełne zdrowie.";
         }
 
+        public int GetPotionCount() => potionCount;
+
         public void DisplayPotionCount()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"Mikstury: {PotionCount}".PadRight(Console.WindowWidth));
             Console.ResetColor();
         }
-        public void CollectHealingPotion()
-        {
-            potionCount++;
-        }
-        public int GetPotionCount() => potionCount;
-
-    
     }
 }

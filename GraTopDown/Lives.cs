@@ -11,15 +11,29 @@ namespace GameProject
         }
         public bool IsAlive => currentLives > 0;
 
-         public void Display()
-        {
-            Console.WriteLine($"Życia: {currentLives}"); // wyswietla liczbe zyc
-        }
         public void LoseLife()
         {
             if (currentLives > 0)
                 currentLives--;
+
         }
+
+        public void AddLife()
+        {
+            if (currentLives < maxLives)
+                currentLives++;
+        }
+
+        public void Reset(int lives = 3)
+        {
+            currentLives = lives;
+        }
+
+        public void Display()
+        {
+            Console.WriteLine($"Życia: {currentLives}"); // wyswietla liczbe zyc
+        }
+        
         public bool Heal()
         {
             if (currentLives < maxLives)
