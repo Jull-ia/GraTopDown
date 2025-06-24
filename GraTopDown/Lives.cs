@@ -15,6 +15,18 @@ namespace GameProject
         {
             Console.WriteLine($"Życia: {currentLives}"); // wyswietla liczbe zyc
         }
+
+        public void AddLife()
+                {
+                    if (currentLives < maxLives)
+                        currentLives++;
+                }
+
+         public void Reset(int lives = 3)
+         {
+                    currentLives = lives;
+                }
+
         public void LoseLife()
         {
             if (currentLives > 0)
