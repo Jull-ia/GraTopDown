@@ -130,7 +130,7 @@ namespace GameProject
 
                     }
 
-                    if (level.IsWalkable(newPosition.x, newPosition.y))
+                    if (level.IsWalkable(newPosition.x, newPosition.y)) //Kolizje z elementami
                     {
                         if (IsNpcAtPosition(newPosition))
                         {

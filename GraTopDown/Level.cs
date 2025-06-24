@@ -109,11 +109,7 @@ namespace GameProject
 
             return false;
         }
-        public void SetCellVisual(Point pos, char symbol)
-        {
-            levelData[pos.y][pos.x].Visual = symbol;
-        }
-
+    
 
         private bool IsAdjacent(Point a, Point b) 
         {
@@ -135,6 +131,15 @@ namespace GameProject
                     }
                     break; 
                 }
+            }
+        }
+
+        public void OpenSpecificDoor() //drzwi ktore otwieraja sie po skonczonym dialogu
+        {
+            Point doorPosition = new Point(29, 11);
+            if (levelData[doorPosition.y][doorPosition.x].Visual == '_')
+            {
+                levelData[doorPosition.y][doorPosition.x].Visual = '/';
             }
         }
 
@@ -169,7 +174,10 @@ namespace GameProject
 
             levelData[pos.y][pos.x].Leave();
         }
-
+        public void SetCellVisual(Point pos, char symbol)
+          {
+                        levelData[pos.y][pos.x].Visual = symbol;
+           }
         public char GetCellVisual(Point pos)
         {
             if (pos.y < 0 || pos.y >= levelData.Length) return ' ';
@@ -303,13 +311,5 @@ namespace GameProject
             }
         }
 
-        public void OpenSpecificDoor() //drzwi ktore otwieraja sie po skonczonym dialogu
-        {
-            Point doorPosition = new Point(29, 11);
-            if (levelData[doorPosition.y][doorPosition.x].Visual == '_')
-            {
-                levelData[doorPosition.y][doorPosition.x].Visual = '/';
-            }
-        }
     }
 }
