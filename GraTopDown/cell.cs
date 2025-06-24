@@ -65,15 +65,14 @@ namespace GameProject
             occupant = character;
         }
 
+        public bool IsOccupied()
+        {
+            return occupant != null;
+        }
         public void Leave()
         {
             occupant = null;
         }
 
-
-        public bool IsOccupied()
-        {
-            return occupant != null;
-        }
     }
 }

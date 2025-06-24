@@ -2,24 +2,20 @@ namespace GameProject
 {
     static class DialogueManager
     {
-        private static HashSet<Point> talkedToPrisoners = new();
-
+        private static HashSet<Point> talkedToP = new();
         private static HashSet<Point> talkedToS = new();
 
         public static bool TryTriggerDialogue(Point playerPos, Level level, out string message, out bool unlockDoors)
         {
-            foreach (var offset in new[] {
-                new Point(0, 1), new Point(0, -1),
-                new Point(1, 0), new Point(-1, 0)
-            })
+            foreach (var offset in new[] { new Point(0, 1), new Point(0, -1), new Point(1, 0), new Point(-1, 0) })
             {
                 var adjacent = new Point(playerPos.x + offset.x, playerPos.y + offset.y);
                 char visual = level.GetCellVisual(adjacent);
 
-                if (visual == 'P' && !talkedToPrisoners.Contains(adjacent))
+                if (visual == 'P' && !talkedToP.Contains(adjacent)) 
                 {
                     bool result = HandlePrisonerDialogue(out message, out unlockDoors);
-                    talkedToPrisoners.Add(adjacent);
+                    talkedToP.Add(adjacent);
                     return result;
                 }
 

@@ -5,7 +5,6 @@ namespace GameProject
         private List<Point> body;
         private int directionIndex;
         private List<Point> path;
-
         public Snake(List<Point> path)
         {
             this.path = path;
@@ -28,15 +27,13 @@ namespace GameProject
             body.Insert(0, nextHead);
             body.RemoveAt(body.Count - 1);
         }
-
+        public Point GetHead()
+                {
+                    return body[0];
+                }
         public List<Point> GetBody()
         {
             return new List<Point>(body);
-        }
-
-        public Point GetHead()
-        {
-            return body[0];
         }
     }
 }

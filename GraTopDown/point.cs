@@ -10,7 +10,6 @@ namespace GameProject
             this.x = x;
             this.y = y;
         }
-
         public bool Equals(Point other)
         {
             return this.x == other.x && this.y == other.y;

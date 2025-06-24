@@ -31,7 +31,7 @@ namespace GameProject
             "-------------------------#######",
         };
 
-        private Dictionary<Point, Point> keysAndDoors = new()
+        private Dictionary<Point, Point> keysAndDoors = new() //Pary kluczy i drzwi
         {
             { new Point(31, 8), new Point(33, 14) }, //klucz 1 / drzwi 1 
             
@@ -109,12 +109,7 @@ namespace GameProject
 
             return false;
         }
-        public void SetCellVisual(Point pos, char symbol)
-        {
-            levelData[pos.y][pos.x].Visual = symbol;
-        }
-
-
+       
         private bool IsAdjacent(Point a, Point b) 
         {
             int dx = Math.Abs(a.x - b.x);
@@ -135,6 +130,15 @@ namespace GameProject
                     }
                     break; 
                 }
+            }
+        }
+
+        public void OpenSpecificDoor() //drzwi ktore otwieraja sie po skonczonym dialogu
+        {
+            Point doorPosition = new Point(29, 11);
+            if (levelData[doorPosition.y][doorPosition.x].Visual == '_')
+            {
+                levelData[doorPosition.y][doorPosition.x].Visual = '/';
             }
         }
 
@@ -169,6 +173,10 @@ namespace GameProject
 
             levelData[pos.y][pos.x].Leave();
         }
+        public void SetCellVisual(Point pos, char symbol)
+                {
+                    levelData[pos.y][pos.x].Visual = symbol;
+                }
 
         public char GetCellVisual(Point pos)
         {
@@ -181,7 +189,7 @@ namespace GameProject
         public Point GetStartNearFirstTeleport(int offsetX)
         {
             if (teleportPoints.Count < 1)
-                throw new InvalidOperationException("No teleport points found.");
+                throw new InvalidOperationException("Brak teleportu");
 
             Point first = teleportPoints[0];
             return new Point(first.x + offsetX, first.y);
@@ -303,13 +311,5 @@ namespace GameProject
             }
         }
 
-        public void OpenSpecificDoor() //drzwi ktore otwieraja sie po skonczonym dialogu
-        {
-            Point doorPosition = new Point(29, 11);
-            if (levelData[doorPosition.y][doorPosition.x].Visual == '_')
-            {
-                levelData[doorPosition.y][doorPosition.x].Visual = '/';
-            }
-        }
     }
 }
