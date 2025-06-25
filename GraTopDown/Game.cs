@@ -11,7 +11,7 @@ namespace GameProject
         private List<Point> snakePath  = new List<Point>();
         private string infoMessage = "";
         private DateTime messageShownTime = DateTime.MinValue;
-        private const int messageDisplayDuration = 5000;
+        private const int messageDisplayDuration = 3000;
         private Point snakeStartRoomPosition;
         private readonly Point snakeHitReturnPoint = new Point(31, 14);
     
@@ -190,7 +190,7 @@ namespace GameProject
                             if (DialogueManager.TryTriggerDialogue(playerPosition, level, out string msg, out bool unlockDoors))
                             {
                                 infoMessage = "Rozmowa z więźniem zakończona.";
-                                messageShownTime = DateTime.MinValue;
+                                messageShownTime = DateTime.Now;
 
                                 if (unlockDoors)
                                     level.OpenSpecificDoor();

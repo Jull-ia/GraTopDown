@@ -105,7 +105,7 @@ namespace GameProject
                 else if (key == ConsoleKey.D2 || key == ConsoleKey.NumPad2)
                 {
                     Console.Clear();
-                    Console.WriteLine("Strażnik: Zagraj ze mną w papier kamień nożyce a zrobię o co prosisz.");
+                    Console.WriteLine("Strażnik: Wygraj ze mną w papier kamień nożyce a zrobię to o co prosisz.");
                     unlockDoors = false;
 
                     Console.WriteLine("\n[Wciśnij Enter aby kontynuować]");
@@ -164,7 +164,7 @@ namespace GameProject
                 }
                 else
                 {
-                    Console.WriteLine("No to chyba sobie tu postoisz. Gramy dalej!");
+                    Console.WriteLine("Przegrałeś. Chyba sobie tu postoisz. Gramy dalej!");
                     Console.WriteLine("\n[Wciśnij Enter aby kontynuować]");
                     Console.ReadKey();
                     Console.Clear();
