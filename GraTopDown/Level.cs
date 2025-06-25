@@ -31,7 +31,7 @@ namespace GameProject
             "-------------------------#######",
         };
 
-        private Dictionary<Point, Point> keysAndDoors = new()
+        private Dictionary<Point, Point> keysAndDoors = new() //Klucze i odpowiadające drzwi
         {
             { new Point(31, 8), new Point(33, 14) }, //klucz 1 / drzwi 1 
             
@@ -189,7 +189,7 @@ namespace GameProject
         public Point GetStartNearFirstTeleport(int offsetX)
         {
             if (teleportPoints.Count < 1)
-                throw new InvalidOperationException("No teleport points found.");
+                throw new InvalidOperationException("Brak teleportu");
 
             Point first = teleportPoints[0];
             return new Point(first.x + offsetX, first.y);

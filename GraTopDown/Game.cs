@@ -222,6 +222,7 @@ namespace GameProject
                 Thread.Sleep(10);
             }
 
+          //Przegrana
             Console.Clear();
             Console.WriteLine("KONIEC GRY. Straciłeś wszystkie życia.");
             Console.WriteLine("[Wciśnij ENTER aby wyjść z gry..]");
